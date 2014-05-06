@@ -42,6 +42,7 @@ if (!empty($link)) {
     foreach (App::$route->getRouteComponents() as $key => $class) {
         if (in_array($link[$position], $class)) {
             $globalRewrite['component'] = htmlspecialchars($key);
+
             $componentSet = true;
         }
         App::$smarty->assign('c_' . $key, $class[$_SESSION['lang']], true);

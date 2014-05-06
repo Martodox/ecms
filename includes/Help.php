@@ -338,4 +338,15 @@ class Help
         }
     }
 
+    public static function ajaxJSON($msg = '', $json = true)
+    {
+        if (!empty($msg) && $json) {
+            echo json_encode($msg);
+        } elseif (is_string($msg)) {
+            echo $msg;
+        }
+
+        exit;
+    }
+
 }

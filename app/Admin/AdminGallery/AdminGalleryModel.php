@@ -39,6 +39,7 @@ class AdminGalleryModel extends Model
     public function listGalleryCategories()
     {
         $gallery_category = App::$db->simpleQuery('SELECT c.id, c.name, c.slug, c.active, count(p.id) as total FROM gallery_category c LEFT JOIN gallery_pictures p ON c.id = p.category GROUP BY c.id  ORDER BY `order`');
+        $this->addJS('galleryEdit');
         App::$smarty->assign('gallery_category', $gallery_category);
     }
 

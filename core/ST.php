@@ -4,10 +4,10 @@
 class ST
 {
 
-    public static function gP($class)
+    public static function gP($pacage)
     {
         $var = App::$route->getRoutePacage();
-        return $var[$class][$_SESSION['lang']];
+        return $var[$pacage][$_SESSION['lang']];
     }
 
     public static function gC($class)
@@ -16,22 +16,23 @@ class ST
         return $var[$class][$_SESSION['lang']];
     }
 
-    public static function gAM($class)
+    public static function gAM($action)
     {
         $var = App::$route->getRouteActions();
-        return $var['Model'][$class][$_SESSION['lang']];
+        return $var['Model'][$action][$_SESSION['lang']];
     }
 
-    public static function gAC($class)
+    public static function gAC($action)
     {
         $var = App::$route->getRouteActions();
-        return $var['Controller'][$class][$_SESSION['lang']];
+        return $var['Controller'][$action][$_SESSION['lang']];
     }
 
-//    public static function gL($dialog)
-//    {
-//        return $this->langArray[$dialog][$_SESSION['lang']];
-//    }
+    public static function gD($dialog)
+    {
+        $var = App::$route->getRouteDialogs();
+        return $var[$dialog][$_SESSION['lang']];
+    }
 
     public static function currentPacage()
     {
@@ -60,7 +61,6 @@ class ST
     public static function isActionSet($name = null)
     {
         $var = App::$route->getGlobalRewrite();
-        SLog::toFile($var);
         if ($name != null) {
             if ($var['action'] != $name) {
                 return false;

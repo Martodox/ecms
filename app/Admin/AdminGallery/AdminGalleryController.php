@@ -276,16 +276,36 @@ class AdminGalleryController extends Controller
         $this->hideTemplate();
     }
 
+    /**
+     * 
+     * @return ArrayObject
+     */
     public function AdminGalleryChangeStatus()
     {
+        Help::ajaxAuthenticateRequest();
+        $this->hideTemplate();
         $id = ST::currentVars(1);
-        App::$db->
+        $status = App::$db->
                 create('UPDATE `gallery_category` SET `active` = 1 - `active` WHERE `id` = :id')->
-                bind($id, 'id')->
+                bind((int) $id, 'id', 'int')->
+                execute()->
+                create('SELECT `active` FROM `gallery_category` WHERE `id` = :id')->
+                bind((int) $id, 'id', 'int')->
                 execute();
+        $return['token'] = Model::newToken();
+        $return['status'] = $status[0]['active'];
+
+        if ($return['status'] == 1) {
+            $return['tooltip'] = ST::gD('clicktohide');
+            $return['button'] = ST::gD('yes');
+        } else {
+            $return['tooltip'] = ST::gD('clicltomakeublic');
+            $return['button'] = ST::gD('no');
+        }
 
 
-        Help::redirect('Admin', 'AdminGallery', 'listGalleryCategories');
+
+        Help::ajaxJSON($return);
     }
 
     public function ajaxSimpleUpload()
@@ -303,12 +323,11 @@ class AdminGalleryController extends Controller
                     bind($upload['name'], 'filename')->
                     execute()->
                     lastId();
-
         }
         $return['name'] = $upload['name'];
         $return['id'] = $lastID;
         $return['link'] = rootpatch . ST::gP('Admin') . '/' . ST::gC('AdminGallery') . '/' . ST::gAM('ajaxShowEditPicture') . '/' . $lastID;
-        SLog::toFile($return['link']);
+
         $this->hideTemplate();
         echo json_encode($return);
     }

@@ -24,7 +24,8 @@
                 </div><!-- /.box-header -->
                 <div class="box-body no-padding">
                     <table class="table table-striped">
-                        <tbody><tr>     
+                        <thead>
+                            <tr>     
                                 <th>#</th>
                                 <th>{$l_totalpicturenumber}</th>
                                 <th>{$l_categoryname}</th>
@@ -33,6 +34,8 @@
                                 <th>{$l_changeorder}</th>
                                 <th></th>
                             </tr>
+                        </thead>
+                        <tbody>
                             {foreach from=$gallery_category name=catname item=category}
                                 <tr> 
                                     <td><a href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_uploadGalleryPhotos}/{$category.id}"><i class="fa fa-plus-square"></i></a></td>
@@ -41,22 +44,22 @@
                                     <td>{$category.slug}</td>
                                     <td>
                                         {if $category.active eq 1}
-                                            <span data-toggle="tooltip" data-placement="right" title="{$l_clicktohide}" class="label label-success"><a class="text-white" href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_AdminGalleryChangeStatus}/{$category.id}">{$l_yes}</a></span>
+                                            <span data-toggle="tooltip" data-placement="right" title="{$l_clicktohide}" class="label label-success"><a class="text-white changeVisibility" href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_AdminGalleryChangeStatus}/{$category.id}">{$l_yes}</a></span>
                                             {else}
-                                            <span data-toggle="tooltip" data-placement="right" title="{$l_clicltomakeublic}" class="label label-danger"><a class="text-white" href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_AdminGalleryChangeStatus}/{$category.id}">{$l_no}</a></span>
+                                            <span data-toggle="tooltip" data-placement="right" title="{$l_clicltomakeublic}" class="label label-danger"><a class="text-white changeVisibility" href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_AdminGalleryChangeStatus}/{$category.id}">{$l_no}</a></span>
                                             {/if}
                                     </td>
-                                    <td class="order-change">
+                                    <td data-id="{$category.id}" class="order-change">
                                         {if not $smarty.foreach.catname.last}
-                                            <a href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_moveCatDown}/{$category.id}"><i class="fa fa-arrow-down"></i></a>
+                                            <a  class="changeorder categoryDown" ><i class="fa fa-arrow-down"></i></a>
                                             {else}
-                                            <a><i class="fa fa-minus"></i></a>
+                                            <a class="changeorder" ><i class="fa fa-minus"></i></a>
 
                                         {/if}
                                         {if not $smarty.foreach.catname.first}
-                                            <a href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_moveCatUp}/{$category.id}"><i class="fa fa-arrow-up"></i></a>
+                                            <a  class="changeorder categoryUp" ><i class="fa fa-arrow-up"></i></a>
                                             {else}
-                                            <a><i class="fa fa-minus"></i></a>
+                                            <a class="changeorder"  ><i class="fa fa-minus"></i></a>
 
                                         {/if}
 
