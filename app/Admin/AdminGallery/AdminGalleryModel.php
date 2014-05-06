@@ -5,7 +5,6 @@ App::$route->
         addMAction('ajaxEditGalleryCategory', 'pl', 'ajax-edytuj-kategorie-galerii')->
         addMAction('uploadGalleryPhotos', 'pl', 'dodaj-zdjecia')->
         addMAction('listGalleryCategories', 'pl', 'lista-kategorii')->
-        addMAction('chooseGalleryToUpload', 'pl', 'wybierz-kategorie-zdjec')->
         addMAction('ajaxShowEditPicture', 'pl', 'ajax-edytuj-obraz');
 
 class AdminGalleryModel extends Model
@@ -17,7 +16,7 @@ class AdminGalleryModel extends Model
         Help::checkLoginRedirect();
         User::assignUserToSmarty();
         if (!ST::isActionSet()) {
-            Help::redirect('Admin', 'AdminGallery', 'chooseGalleryToUpload');
+            Help::redirect('Admin', 'AdminGallery', 'listGalleryCategories');
         }
         $this->addJS('modal_button', 'notify.min', 'simpleValidator', 'formSubmitBind', 'formSubmit');
     }
@@ -39,24 +38,15 @@ class AdminGalleryModel extends Model
 
     public function listGalleryCategories()
     {
-        $gallery_category = App::$db->simpleQuery('SELECT * FROM gallery_category ORDER BY `order`');
+        $gallery_category = App::$db->simpleQuery('SELECT c.id, c.name, c.slug, c.active, count(p.id) as total FROM gallery_category c LEFT JOIN gallery_pictures p ON c.id = p.category GROUP BY c.id  ORDER BY `order`');
         App::$smarty->assign('gallery_category', $gallery_category);
-    }
-
-    public function chooseGalleryToUpload()
-    {
-        $db = App::$db->
-                create('SELECT `id`, `name`, `slug` FROM `gallery_category` ORDER BY `order`')->
-                execute();
-        App::$smarty->assign('categories', $db);
-        $this->setTpl('chooseGallery');
     }
 
     public function uploadGalleryPhotos()
     {
         $var = ST::currentVars(1);
         if (empty($var)) {
-            Help::redirect('Admin', 'AdminGallery', 'chooseGalleryToUpload');
+            Help::redirect('Admin', 'AdminGallery', 'listGalleryCategories');
         }
 
         $this->addCSS('uploader');

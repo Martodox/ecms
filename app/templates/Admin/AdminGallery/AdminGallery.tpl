@@ -14,18 +14,7 @@
                 <i class="fa fa-plus"></i>
                 {$l_addgallerycat}
             </a>
-            {*            <button style="width: 90%;" class="btn btn-app">
-            <i class="fa fa-trash-o"></i>
-            {$l_removeSelected}
-            </button>
-            <button style="width: 90%;" class="btn btn-app">
-            <i class="fa fa-unlock"></i>
-            {$l_activateSelected}
-            </button>
-            <button style="width: 90%;" class="btn btn-app">
-            <i class="fa fa-lock"></i>
-            {$l_deactivateSelected}
-            </button>*}
+
         </div>
         <div class="col-md-10">
 
@@ -35,7 +24,9 @@
                 </div><!-- /.box-header -->
                 <div class="box-body no-padding">
                     <table class="table table-striped">
-                        <tbody><tr>                        
+                        <tbody><tr>     
+                                <th>#</th>
+                                <th>{$l_totalpicturenumber}</th>
                                 <th>{$l_categoryname}</th>
                                 <th>{$l_seoname}</th>
                                 <th>{$l_activegallery}</th>
@@ -43,7 +34,9 @@
                                 <th></th>
                             </tr>
                             {foreach from=$gallery_category name=catname item=category}
-                                <tr>                           
+                                <tr> 
+                                    <td><a href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_uploadGalleryPhotos}/{$category.id}"><i class="fa fa-plus-square"></i></a></td>
+                                    <td>{$category.total}</td>
                                     <td>{$category.name}</td>
                                     <td>{$category.slug}</td>
                                     <td>

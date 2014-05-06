@@ -13,7 +13,7 @@
         <ul class="treeview-menu">
 
             <li><a href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_listGalleryCategories}"><i class="fa fa-angle-double-right"></i> {$l_categorylist}</a></li>
-            <li><a href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_chooseGalleryToUpload}"><i class="fa fa-angle-double-right"></i> {$l_pictureUpload}</a></li>            
+
         </ul>
     </li>
     <li>

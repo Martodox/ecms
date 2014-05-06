@@ -21,4 +21,5 @@ App::$route->
         addDialog('removesinglepicture', 'pl', 'Skasuj zdjęcie')->
         addDialog('dropheretoupload', 'pl', 'Upuść pliki tutaj', 'en', 'Drop files here')->
         addDialog('browsefiles', 'pl', 'Przeglądaj', 'en', 'Browse')->
-        addDialog('youareaddinttocat', 'pl', 'Dodajesz zdjęcia do kategorii');
+        addDialog('youareaddinttocat', 'pl', 'Dodajesz zdjęcia do kategorii')->
+        addDialog('totalpicturenumber', 'pl', 'Zdjęć');
