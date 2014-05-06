@@ -1,6 +1,6 @@
 <?php
 
-APP::route()->
+App::$route->
         addDialog('oldpassword', 'pl', 'Stare hasło')->
         addDialog('newpassword', 'pl', 'Nowe hasło')->
         addDialog('repeatnewpassword', 'pl', 'Powtórz nowe hasło')->

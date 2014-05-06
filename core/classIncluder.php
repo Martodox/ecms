@@ -17,6 +17,7 @@ require_once ABSPATH . 'core/Route.php';
 
 $fileIgnore = array('Route.php', 'classIncluder.php', 'SSF.php', 'App.php', 'globalRewrite.php', 'ST.php', 'Eloquent.php');
 require_once ABSPATH . 'core/App.php';
+new App();
 foreach ($folder as $one) {
     foreach ($one as $name => $object) {
         if (substr($name, -4) === '.php') {

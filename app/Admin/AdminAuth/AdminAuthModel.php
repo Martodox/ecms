@@ -1,11 +1,14 @@
 <?php
 
-APP::route()->addMAction('login', 'pl', 'zaloguj', 'en', 'login');
-APP::route()->addMAction('forgotPassword', 'pl', 'przypomnij-haslo');
+App::$route->
+        addMAction('login', 'pl', 'zaloguj', 'en', 'login')->
+        addMAction('forgotPassword', 'pl', 'przypomnij-haslo');
 
-class AdminAuthModel extends Model {
+class AdminAuthModel extends Model
+{
 
-    public function __construct() {
+    public function __construct()
+    {
 
         parent::__construct();
         if (Help::isLoggedIn() && !Help::isActionSet('AdminLogOut')) {
@@ -13,7 +16,7 @@ class AdminAuthModel extends Model {
         }
 
         if (!empty($_SESSION['wrongEmail'])) {
-            APP::smarty()->assign('wrongemail', $_SESSION['wrongEmail']);
+            App::$smarty->assign('wrongemail', $_SESSION['wrongEmail']);
             unset($_SESSION['wrongEmail']);
         }
 
@@ -22,7 +25,7 @@ class AdminAuthModel extends Model {
         } else {
             $temp = false;
         }
-        APP::smarty()->assign('showloginerror', $temp);
+        App::$smarty->assign('showloginerror', $temp);
     }
 
 }

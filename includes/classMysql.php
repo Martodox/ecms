@@ -35,11 +35,12 @@ class classMysql
         return $instance;
     }
 
-    public function bind($value, $name, $type = null)
+    public function bind($value, $name, $type = "str")
     {
-        $type = ($type === null ? 'str' : $type);
+        $type = self::getDataType($type);
+
         $value = stripslashes(htmlspecialchars($value));
-        $this->prepareQuery->bindParam(':' . $name, $value, intval($type));
+        $this->prepareQuery->bindParam(':' . $name, $value, $type);
         return $this;
     }
 
@@ -106,20 +107,22 @@ class classMysql
 
     private static function getDataType($short)
     {
-
+        $return = "";
         switch ($short) {
             case 'bool':
-                return 'PDO::PARAM_BOOL';
+                $return = 'PDO::PARAM_BOOL';
             case 'null':
-                return 'PDO::PARAM_NULL';
+                $return = 'PDO::PARAM_NULL';
             case 'int':
-                return 'PDO::PARAM_INT';
+                $return = 'PDO::PARAM_INT';
             case 'lob':
-                return 'PDO::PARAM_LOB';
+                $return = 'PDO::PARAM_LOB';
             case 'str':
             default:
-                return 'PDO::PARAM_STR';
+                $return = 'PDO::PARAM_STR';
         }
+
+        return intval($return);
     }
 
 }

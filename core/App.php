@@ -1,26 +1,31 @@
 <?php
 
-$smartyAppuvWNKgYKZVCNHoCFUtkZ = new Smarty();
-$listRoutejkhfskjlhgjkHJKhfdspeoir = new Route();
-
-class APP
+class App
 {
 
-    public static function smarty()
-    {
-        global $smartyAppuvWNKgYKZVCNHoCFUtkZ;
-        return $smartyAppuvWNKgYKZVCNHoCFUtkZ;
-    }
+    /**
+     *
+     * @var Smarty
+     */
+    public static $smarty;
 
-    public static function db()
-    {
-        return classMysql::instance();
-    }
+    /**
+     *
+     * @var Route 
+     */
+    public static $route;
 
-    public static function route()
+    /**
+     *
+     * @var classMysql 
+     */
+    public static $db;
+
+    public function __construct()
     {
-        global $listRoutejkhfskjlhgjkHJKhfdspeoir;
-        return $listRoutejkhfskjlhgjkHJKhfdspeoir;
+        self::$smarty = new Smarty();
+        self::$route = new Route();
+        self::$db = classMysql::instance();
     }
 
 }

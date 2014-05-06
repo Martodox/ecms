@@ -1,6 +1,6 @@
 <?php
 
-App::route()->
+App::$route->
         addCAction('moveCatUp', 'pl', 'kategoria-wyzej')->
         addCAction('moveCatDown', 'pl', 'kategoria-nizej')->
         addCAction('ajaxSaveGalleryCat', 'pl', 'zapisz-kategorie-galerii')->
@@ -25,7 +25,7 @@ class AdminGalleryController extends Controller
 
     private static function toggleOrder($dir, $id)
     {
-        $pos = APP::db()->
+        $pos = App::$db->
                 create('SELECT `order` FROM `gallery_category` WHERE `id` = :id')->
                 bind($id, 'id')->
                 execute();
@@ -33,14 +33,14 @@ class AdminGalleryController extends Controller
         $oldPos = $pos[0]['order'];
         $newPos = ($dir == 'up' ? $pos[0]['order'] - 1 : $pos[0]['order'] + 1);
 
-        $oldID = APP::db()->
+        $oldID = App::$db->
                 create('SELECT `id` FROM `gallery_category` WHERE `order` = :order')->
                 bind($newPos, 'order')->
                 execute();
         $oldID = $oldID[0]['id'];
 
 
-        APP::db()->
+        App::$db->
                 create("UPDATE `gallery_category` SET `order` = :order WHERE `id` = :id")->
                 bind($oldPos, 'order')->
                 bind($oldID, 'id')->
@@ -91,10 +91,10 @@ class AdminGalleryController extends Controller
 
         if (!$error) {
 
-            $order = APP::db()->simpleQuery("SELECT count(id) as `sum` FROM gallery_category");
+            $order = App::$db->simpleQuery("SELECT count(id) as `sum` FROM gallery_category");
             $order = $order[0]['sum'] + 1;
 
-            App::db()->
+            App::$db->
                     create('INSERT INTO gallery_category (`order`, `name`, `slug`, `active`) VALUES (:order, :name, :slug, :active)')->
                     bind($order, 'order')->
                     bind($name, 'name')->
@@ -136,7 +136,7 @@ class AdminGalleryController extends Controller
         $slug = Help::slug($data['seoname']);
         if (!$isEmpty && $token) {
 
-            $db = APP::db()->
+            $db = App::$db->
                     create('SELECT `name`, `slug` FROM `gallery_category` WHERE `id` = :id')->
                     bind($id, 'id')->
                     execute();
@@ -162,7 +162,7 @@ class AdminGalleryController extends Controller
         }
 
         if (!$error) {
-            App::db()->
+            App::$db->
                     create('UPDATE gallery_category SET `name` = :name, `slug` = :slug WHERE `id` = :id')->
                     bind($name, 'name')->
                     bind($slug, 'slug')->
@@ -202,7 +202,7 @@ class AdminGalleryController extends Controller
         if ($token) {
 
 
-            $filename = APP::db()->
+            $filename = App::$db->
                     create("SELECT `filename` FROM `gallery_pictures` WHERE  `id`= :id LIMIT 1")->
                     bind($id, 'id')->
                     execute();
@@ -213,7 +213,7 @@ class AdminGalleryController extends Controller
                     setDirectory('gallery')->
                     remove($filename);
 
-            APP::db()->
+            App::$db->
                     create("DELETE FROM `gallery_pictures` WHERE  `id`= :id")->
                     bind($id, 'id')->
                     execute();
@@ -257,7 +257,7 @@ class AdminGalleryController extends Controller
         $return = array();
         $id = $data['catid'];
         if ($token) {
-            APP::db()->
+            App::$db->
                     create("DELETE FROM `gallery_category` WHERE  `id`= :id")->
                     bind($id, 'id')->
                     execute();
@@ -279,7 +279,7 @@ class AdminGalleryController extends Controller
     public function AdminGalleryChangeStatus()
     {
         $id = ST::currentVars(1);
-        APP::db()->
+        App::$db->
                 create('UPDATE `gallery_category` SET `active` = 1 - `active` WHERE `id` = :id')->
                 bind($id, 'id')->
                 execute();
@@ -297,7 +297,7 @@ class AdminGalleryController extends Controller
                 upload($_FILES['upl']);
 
         if (!$upload['error']) {
-            $lastID = APP::db()->
+            $lastID = App::$db->
                     create('INSERT INTO `gallery_pictures` (`category`, `filename`) VALUES (:id, :filename);')->
                     bind(ST::currentVars(1), 'id')->
                     bind($upload['name'], 'filename')->

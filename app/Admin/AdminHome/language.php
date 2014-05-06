@@ -1,6 +1,6 @@
 <?php
 
-APP::route()->
+App::$route->
         addDialog('Hello', 'pl', 'Witaj')->
         addDialog('AdminBegining', 'pl', 'Początek panelu')->
         addDialog('EditAccount', 'pl', 'Edytuj konto')->

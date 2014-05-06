@@ -29,12 +29,10 @@ class Model
 
 
         $this->siteTitle = serviceName;
-        $pacage = APP::route()->getGlobalRewrite();
-        $pacage = $pacage['pacage'];
-        $component = APP::route()->getGlobalRewrite();
-        $component = $component['component'];
+        $pacage = App::$route->getGlobalPacage();
+        $component = App::$route->getGlobalComponent();
 
-        APP::smarty()->
+        App::$smarty->
                 setTemplateDir(array(
                     'root' => ABSPATH . 'app/templates/',
                     ABSPATH . "app/templates/$pacage",
@@ -54,22 +52,22 @@ class Model
                 assign('extraCSS')->
                 assign('extraJS')->
                 assign('serviceName', serviceName);
-        APP::smarty()->caching = 0;
-        APP::smarty()->force_compile = true;
-        APP::smarty()->cache_lifetime = 1;
+        App::$smarty->caching = 0;
+        App::$smarty->force_compile = true;
+        App::$smarty->cache_lifetime = 1;
     }
 
     public function addTitle($text)
     {
         $title = $this->siteTitle . ' &#124; ' . $text;
-        APP::smarty()->assign('siteTitle', $title);
+        App::$smarty->assign('siteTitle', $title);
     }
 
     public function addCSS()
     {
         $css = func_get_args();
         if (!empty($css)) {
-            $pacage = APP::route()->getGlobalRewrite();
+            $pacage = App::$route->getGlobalRewrite();
             $pacage = $pacage['pacage'];
             foreach ($css as $style) {
                 $href = rootpatch . "app/templates/$pacage/css/$style.css";
@@ -77,14 +75,14 @@ class Model
             }
         }
 
-        APP::smarty()->assign('extraCSS', $this->extraCSS);
+        App::$smarty->assign('extraCSS', $this->extraCSS);
     }
 
     public function addJS()
     {
         $js = func_get_args();
         if (!empty($js)) {
-            $pacage = APP::route()->getGlobalRewrite();
+            $pacage = App::$route->getGlobalRewrite();
             $pacage = $pacage['pacage'];
             foreach ($js as $file) {
                 $href = rootpatch . "app/templates/$pacage/js/$file.js";
@@ -92,7 +90,7 @@ class Model
             }
         }
 
-        APP::smarty()->assign('extraJS', $this->extraJS);
+        App::$smarty->assign('extraJS', $this->extraJS);
     }
 
     public function setTpl($name)

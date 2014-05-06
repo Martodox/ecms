@@ -118,9 +118,9 @@ class Help
     public static function redirect($pacage = null, $controll = null, $action = null, $var = null)
     {
         $location = rootpatch;
-        $location = ($pacage !== null) ? $location = $location . APP::route()->returnPacage($pacage) . '/' : $location;
-        $location = ($controll !== null) ? $location = $location . APP::route()->returnComponent($controll) . '/' : $location;
-        $location = ($action !== null) ? $location = $location . APP::route()->returnAction($action) . '/' : $location;
+        $location = ($pacage !== null) ? $location = $location . App::$route->returnPacage($pacage) . '/' : $location;
+        $location = ($controll !== null) ? $location = $location . App::$route->returnComponent($controll) . '/' : $location;
+        $location = ($action !== null) ? $location = $location . App::$route->returnAction($action) . '/' : $location;
         $location = ($var !== null) ? $location = $location . $var . '/' : $location;
         header("Location: " . $location);
         die();
@@ -128,7 +128,7 @@ class Help
 
     public static function isActionSet($name = null)
     {
-        $action = App::route()->getGlobalRewrite();
+        $action = App::$route->getGlobalRewrite();
         $action = $action['action'];
 
         if (!empty($action) && $name === null) {
@@ -161,14 +161,14 @@ class Help
     public static function getVar($number = -1)
     {
         if ($number < 0) {
-            $var = App::route()->getGlobalRewrite();
+            $var = App::$route->getGlobalRewrite();
             $var = $var['vars'];
             if (!empty($var)) {
                 return $var;
             }
         } else {
             $number--;
-            $var = App::route()->getGlobalRewrite();
+            $var = App::$route->getGlobalRewrite();
             $var = $var['vars'][$number];
             if (!empty($var)) {
                 return $var;
@@ -206,7 +206,7 @@ class Help
 
     public static function dbCheckIfValueExists($table, $field, $value)
     {
-        $res = APP::db()->
+        $res = App::$db->
                 create('SELECT * FROM ' . $table . ' WHERE ' . $field . ' = :value')->
                 bind($value, 'value')->
                 execute();

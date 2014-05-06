@@ -1,6 +1,6 @@
 <?php
 
-APP::route()->
+App::$route->
         addMAction('ajaxAddGalleryCategory', 'pl', 'dodaj-kategorie-galerii')->
         addMAction('ajaxEditGalleryCategory', 'pl', 'ajax-edytuj-kategorie-galerii')->
         addMAction('uploadGalleryPhotos', 'pl', 'dodaj-zdjecia')->
@@ -29,26 +29,26 @@ class AdminGalleryModel extends Model
 
     public function ajaxEditGalleryCategory()
     {
-        $info = APP::db()->
+        $info = App::$db->
                 create('SELECT `id`, `name`, `slug` FROM `gallery_category` WHERE `id` = :id')->
                 bind(ST::currentVars(1), 'id')->
                 execute();
-        APP::smarty()->assign('editinfo', $info[0]);
+        App::$smarty->assign('editinfo', $info[0]);
         $this->setTpl('editCategory');
     }
 
     public function listGalleryCategories()
     {
-        $gallery_category = App::db()->simpleQuery('SELECT * FROM gallery_category ORDER BY `order`');
-        App::smarty()->assign('gallery_category', $gallery_category);
+        $gallery_category = App::$db->simpleQuery('SELECT * FROM gallery_category ORDER BY `order`');
+        App::$smarty->assign('gallery_category', $gallery_category);
     }
 
     public function chooseGalleryToUpload()
     {
-        $db = APP::db()->
+        $db = App::$db->
                 create('SELECT `id`, `name`, `slug` FROM `gallery_category` ORDER BY `order`')->
                 execute();
-        APP::smarty()->assign('categories', $db);
+        App::$smarty->assign('categories', $db);
         $this->setTpl('chooseGallery');
     }
 
@@ -62,16 +62,16 @@ class AdminGalleryModel extends Model
         $this->addCSS('uploader');
         $this->addJS('jquery.knob', 'jquery.ui.widget', 'jquery.iframe-transport', 'jquery.fileupload', 'fileUploader', 'galleryModal');
 
-        $db = APP::db()->
+        $db = App::$db->
                 create("SELECT * FROM `gallery_pictures` WHERE `category` = :id ORDER BY `id` DESC")->
                 bind(ST::currentVars(1), "id")->
                 execute();
-        $name = APP::db()->
+        $name = App::$db->
                 create("SELECT `name` FROM `gallery_category` WHERE `id` = :id LIMIT 1")->
                 bind(ST::currentVars(1), "id")->
                 execute();
-        
-        APP::smarty()->
+
+        App::$smarty->
                 assign('gallerypictures', $db)->
                 assign('catname', $name[0]['name']);
 
@@ -80,11 +80,11 @@ class AdminGalleryModel extends Model
 
     public function ajaxShowEditPicture()
     {
-        $info = APP::db()->
+        $info = App::$db->
                 create('SELECT * FROM `gallery_pictures` WHERE `id` = :id')->
                 bind(ST::currentVars(1), 'id')->
                 execute();
-        APP::smarty()->assign('editinfo', $info[0]);
+        App::$smarty->assign('editinfo', $info[0]);
         $this->setTpl('editPicture');
     }
 

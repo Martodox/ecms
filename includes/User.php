@@ -25,7 +25,7 @@ class User
 
     public static function assignUserToSmarty()
     {
-        APP::smarty()->assign('user', $_SESSION['user']);
+        App::$smarty->assign('user', $_SESSION['user']);
     }
 
     public static function getID()

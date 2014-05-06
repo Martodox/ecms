@@ -3,6 +3,10 @@
 class Controller
 {
 
+    /**
+     *
+     * @var Model
+     */
     public $model;
 
     public function __construct($model)
@@ -10,16 +14,11 @@ class Controller
         $this->model = $model;
     }
 
-    public function setTpl($tpl)
-    {
-        $this->model->template = $tpl;
-    }
-
     public function display($tpl = null)
     {
         if ($this->model->displayTemplate) {
             $tpl = ($tpl === null || devmode ? $this->model->template : $tpl);
-            APP::smarty()->display($this->model->template . '.tpl');
+            App::$smarty->display($this->model->template . '.tpl');
         }
     }
 
@@ -33,11 +32,6 @@ class Controller
             $location .= $vars;
         }
         header('Location: ' . $location);
-    }
-
-    public function setTitle($title)
-    {
-        $this->model->setTitle($title);
     }
 
     public function hideTemplate()

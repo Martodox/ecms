@@ -8,7 +8,7 @@ class SSF
     public function __construct()
     {
         header('Content-Type: text/html; charset=utf-8');
-        global $globalRewrite;
+        $globalRewrite = App::$route->getGlobalRewrite();
         $modelName = $globalRewrite['component'] . 'Model';
         $controllerName = $globalRewrite['component'] . 'Controller';
 

@@ -1,6 +1,6 @@
 <?php
 
-APP::route()->
+App::$route->
         addDialog('gallery', 'pl', 'Galeria zdjęć', 'en', 'Photo gallery')->
         addDialog('categorylist', 'pl', 'Kategorie', 'en', 'Categories')->
         addDialog('categoryname', 'pl', 'Nazwa kategorii')->

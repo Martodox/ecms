@@ -1,6 +1,6 @@
 <?php
 
-App::route()->
+App::$route->
         addCAction('AdminPasswordChange', 'pl', 'zapisz-zmiane-hasla')->
         addCAction('AdminDetailChange', 'pl', 'zapisz-zmiane-danych')->
         addCAction('AdminAddUser', 'pl', 'zapisz-uzytkownika')->
@@ -25,20 +25,20 @@ class AdminUserController extends Controller
             Help::redirect('Admin', 'AdminUser', null, 'error,passwordmissmatch');
         }
 
-        $user = APP::db()->
+        $user = App::$db->
                 create('SELECT salt, password FROM user WHERE id = :id')->
-                bind(User::getID(), 'id')->
+                bind((int) User::getID(), 'id', 'int')->
                 execute();
         $user = $user[0];
 
         if ($user['password'] === Help::saltPassword($oldPassword, $user['salt'])) {
             $salt = Help::getSalt();
             $newPassword = Help::saltPassword($newPassword, $salt);
-            APP::db()->
+            App::$db->
                     create('UPDATE user SET password = :password, salt = :salt WHERE id = :id')->
                     bind($newPassword, 'password')->
                     bind($salt, 'salt')->
-                    bind(User::getID(), 'id')->
+                    bind((int) User::getID(), 'id', 'int')->
                     execute();
             Help::redirect('Admin', 'AdminUser', null, 'success,password');
         }
@@ -68,12 +68,12 @@ class AdminUserController extends Controller
             }
         }
 
-        APP::db()->
+        App::$db->
                 create('UPDATE user SET email = :email, first_name = :first_name, last_name = :last_name WHERE id = :id')->
                 bind($email, 'email')->
                 bind($name, 'first_name')->
                 bind($surname, 'last_name')->
-                bind(User::getID(), 'id')->
+                bind((int) User::getID(), 'id', 'int')->
                 execute();
 
 
@@ -128,10 +128,10 @@ class AdminUserController extends Controller
         if (!$error) {
             $salt = Help::getSalt();
             $password = Help::saltPassword($data['newpassword'], $salt);
-            App::db()->
+            App::$db->
                     create('INSERT INTO user (id, email, level, first_name, last_name, salt, password) VALUES (null, :email, :level, :first_name, :last_name, :salt, :password)')->
                     bind($data['emailaddress'], 'email')->
-                    bind($data['level'], 'level')->
+                    bind((int) $data['level'], 'level', 'int')->
                     bind($data['firstname'], 'first_name')->
                     bind($data['lastname'], 'last_name')->
                     bind($salt, 'salt')->
@@ -173,7 +173,7 @@ class AdminUserController extends Controller
 
         if ($token) {
             $error = false;
-            $id = APP::db()->
+            $id = App::$db->
                     create('SELECT `id` FROM `user` WHERE `email` = :email')->
                     bind($data['removeemail'], 'email')->
                     execute();
@@ -181,9 +181,9 @@ class AdminUserController extends Controller
             if (empty($id) || $id == 1) {
                 $error = true;
             } else {
-                APP::db()->
+                App::$db->
                         create('DELETE FROM `user` WHERE  `id`= :id;')->
-                        bind($id, 'id')->
+                        bind((int) $id, 'id', 'int')->
                         execute();
             }
         } else {
@@ -201,9 +201,9 @@ class AdminUserController extends Controller
         $id = ST::currentVars(1);
 
         if ($id != 1) {
-            APP::db()->
+            App::$db->
                     create('UPDATE `user` SET `active` = 1 - `active` WHERE `id` = :id')->
-                    bind($id, 'id')->
+                    bind((int) $id, 'id', 'int')->
                     execute();
         }
 

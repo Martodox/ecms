@@ -1,6 +1,6 @@
 <?php
 
-APP::route()->
+App::$route->
         addCAction('AdminLoginAuthorize', 'pl', 'autoryzacja')->
         addCAction('AdminLogOut', 'pl', 'wyloguj-sie');
 
@@ -12,14 +12,14 @@ class AdminAuthController extends Controller {
         }
         $password = Help::serverVar('post', 'password');
         $email = Help::serverVar('post', 'email');
-        $salt = APP::db()->
+        $salt = App::$db->
                 create('SELECT salt FROM user WHERE email = :email AND `active` = 1')->
                 bind($email, 'email')->
                 execute();
 
         if (!empty($salt)) {
             $password = Help::saltPassword($password, $salt[0]['salt']);
-            $user = APP::db()->
+            $user = App::$db->
                     create('SELECT * FROM user WHERE password = :password')->
                     bind($password, 'password')->
                     execute();

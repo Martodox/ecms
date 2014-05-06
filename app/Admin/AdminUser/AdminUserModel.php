@@ -1,37 +1,41 @@
 <?php
 
-APP::route()->
+App::$route->
         addMAction('allUserList', 'pl', 'lista-uzytkownikow')->
         addMAction('ajaxUserAdd', 'pl', 'zladuj-dane-uzytkownika-ajax')->
         addMAction('ajaxUserEdit', 'pl', 'edytuj-uzytkownika');
 
-class AdminUserModel extends Model {
+class AdminUserModel extends Model
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         Help::checkLoginRedirect();
         User::assignUserToSmarty();
         $this->addJS('modal_button', 'notify.min', 'simpleValidator', 'formSubmitBind', 'formSubmit', 'validatePlaces');
     }
 
-    public function allUserList() {
+    public function allUserList()
+    {
         $this->setTpl('allUserList');
-        $users = App::db()->simpleQuery('SELECT * FROM user ORDER BY id');
-        App::smarty()->assign('allUsers', $users);
+        $users = App::$db->simpleQuery('SELECT * FROM user ORDER BY id');
+        App::$smarty->assign('allUsers', $users);
     }
 
-    public function ajaxUserAdd() {
+    public function ajaxUserAdd()
+    {
         $this->setTpl('addUser');
     }
 
-    public function ajaxUserEdit() {
+    public function ajaxUserEdit()
+    {
         $this->setTpl('editUser');
-        $user = APP::db()->
+        $user = App::$db->
                 create('SELECT * FROM user WHERE id = :id LIMIT 1')->
-                bind(Help::getVar(1), 'id')->
+                bind((int) Help::getVar(1), 'id', 'int')->
                 execute();
-
-        APP::smarty()->assign('user', $user[0]);
+        App::$smarty->assign('user', $user[0]);
     }
 
 }
