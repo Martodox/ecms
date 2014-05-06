@@ -1,0 +1,2 @@
+$('#userDataEdit').simpleValidator();
+$('#userPasswordEdit').simpleValidator();

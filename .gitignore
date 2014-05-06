@@ -1,0 +1,6 @@
+cache/
+compile/
+logs/
+config.php
+
+/storage/upload/

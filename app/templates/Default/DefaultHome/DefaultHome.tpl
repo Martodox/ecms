@@ -1,0 +1,1 @@
+<a href="{$rootpatch}{$p_Admin}">Idź do admina</a>
