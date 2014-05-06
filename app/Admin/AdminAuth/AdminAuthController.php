@@ -27,6 +27,7 @@ class AdminAuthController extends Controller {
 
         if (!empty($user)) {
             $user = $user[0];
+            session_regenerate_id();
             User::logIn();
             User::setLevel($user['level']);
             User::setUserField('id', $user['id']);
@@ -43,6 +44,7 @@ class AdminAuthController extends Controller {
 
     public function AdminLogOut() {
         User::logOut();
+        session_regenerate_id();
         Help::redirect('Admin', 'AdminAuth');
     }
 
