@@ -43,7 +43,7 @@ function formSubmit(button) {
             button.addClass('disabled');
         },
         success: function(msg) {
-            console.log(msg);
+
             msg = JSON.parse(msg);
 
             button.removeClass('disabled');

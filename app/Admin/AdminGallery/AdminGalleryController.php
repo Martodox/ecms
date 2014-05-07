@@ -1,8 +1,8 @@
 <?php
 
 App::$route->
-        addCAction('moveCatUp', 'pl', 'kategoria-wyzej')->
-        addCAction('moveCatDown', 'pl', 'kategoria-nizej')->
+        addCAction('moveCatUp', 'pl', 'kategoria-wyzej', 'en', 'category-up')->
+        addCAction('moveCatDown', 'pl', 'kategoria-nizej', 'en', 'category-down')->
         addCAction('ajaxSaveGalleryCat', 'pl', 'zapisz-kategorie-galerii')->
         addCAction('ajaxDelGalleryCat', 'pl', 'skasuj-kategorie-galerii')->
         addCAction('ajaxEditGalleryCat', 'pl', 'zapisz-zmiany-kategorii')->
@@ -15,19 +15,23 @@ class AdminGalleryController extends Controller
 
     public function moveCatUp()
     {
-        self::toggleOrder('up', ST::currentVars(1));
+        $this->model->hideTemplate();
+        self::toggleOrder('up');
     }
 
     public function moveCatDown()
     {
-        self::toggleOrder('down', ST::currentVars(1));
+        $this->model->hideTemplate();
+        self::toggleOrder('down');
     }
 
-    private static function toggleOrder($dir, $id)
+    private static function toggleOrder($dir)
     {
+        Help::ajaxAuthenticateRequest();
+        $id = json_decode(Help::serverVar('post', 'data'));
         $pos = App::$db->
                 create('SELECT `order` FROM `gallery_category` WHERE `id` = :id')->
-                bind($id, 'id')->
+                bind((int) $id, 'id', 'int')->
                 execute();
 
         $oldPos = $pos[0]['order'];
@@ -35,21 +39,22 @@ class AdminGalleryController extends Controller
 
         $oldID = App::$db->
                 create('SELECT `id` FROM `gallery_category` WHERE `order` = :order')->
-                bind($newPos, 'order')->
+                bind((int) $newPos, 'order', 'int')->
                 execute();
         $oldID = $oldID[0]['id'];
 
 
         App::$db->
                 create("UPDATE `gallery_category` SET `order` = :order WHERE `id` = :id")->
-                bind($oldPos, 'order')->
-                bind($oldID, 'id')->
+                bind((int) $oldPos, 'order', 'int')->
+                bind((int) $oldID, 'id', 'int')->
                 execute()->
-                bind($newPos, 'order')->
-                bind($id, 'id')->
+                bind((int) $newPos, 'order', 'int')->
+                bind((int) $id, 'id', 'int')->
                 execute();
 
-        Help::redirect('Admin', 'AdminGallery', 'listGalleryCategories');
+        $return['token'] = Model::newToken();
+        echo json_encode($return);
     }
 
     public function ajaxSaveGalleryCat()

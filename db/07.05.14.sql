@@ -24,11 +24,11 @@ CREATE TABLE IF NOT EXISTS `gallery_category` (
 DELETE FROM `gallery_category`;
 /*!40000 ALTER TABLE `gallery_category` DISABLE KEYS */;
 INSERT INTO `gallery_category` (`id`, `order`, `name`, `slug`, `active`) VALUES
-	(12, 5, 'miscellaneous', 'miscellaneous', 1),
-	(9, 2, 'people', 'people', 1),
-	(10, 3, 'stories', 'stories', 1),
-	(11, 4, 'shadow/light', 'shadow-light', 1),
-	(8, 1, 'portraits', 'portraits', 1);
+	(12, 2, 'miscellaneous', 'miscellaneous', 1),
+	(9, 5, 'people', 'people', 1),
+	(10, 1, 'stories', 'stories', 1),
+	(11, 3, 'shadow/light', 'shadow-light', 1),
+	(8, 4, 'portraits', 'portraits', 1);
 /*!40000 ALTER TABLE `gallery_category` ENABLE KEYS */;
 
 
@@ -39,29 +39,11 @@ CREATE TABLE IF NOT EXISTS `gallery_pictures` (
   `filename` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `description` text COLLATE utf8_bin,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=160 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=179 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Zrzucanie danych dla tabeli ecms.gallery_pictures: 0 rows
+-- Zrzucanie danych dla tabeli ecms.gallery_pictures: 17 rows
 DELETE FROM `gallery_pictures`;
 /*!40000 ALTER TABLE `gallery_pictures` DISABLE KEYS */;
-INSERT INTO `gallery_pictures` (`id`, `category`, `filename`, `description`) VALUES
-	(176, 10, 'd01c91ecc9463900cc9b0facbeec7284aa301b65.jpeg', NULL),
-	(175, 10, 'a3f2ab26e9262614cb03d610b2dacb725a057c14.jpeg', NULL),
-	(174, 10, '3c5555c73dd792996c7753e4216b5be188e03190.jpeg', NULL),
-	(173, 10, '94cef33139a0368547485ef225720c547ad64ef7.jpeg', NULL),
-	(172, 10, '59fb8aa71ded5bdefa59e2154ade47d91d84749d.jpeg', NULL),
-	(171, 10, '7c4d04217f148df03d588c245767f04ceb43223c.jpeg', NULL),
-	(170, 10, 'd8d0ad3dc548886f97ae5f53ce0451a287e44c11.jpeg', NULL),
-	(169, 10, '4dad693c806d61240db520e928b9fb023f369832.jpeg', NULL),
-	(168, 10, 'bccbd03ac17e7c39cbbb041758a73f1e82659ff5.jpeg', NULL),
-	(167, 10, '787da09c6dfb89be114b57443c5ec3aa581a96c6.jpeg', NULL),
-	(166, 10, 'fde0845d7d5887e8c3a6807127d074ef07b0c9d1.jpeg', NULL),
-	(165, 10, '1743924ec47ce0ebb66fb3f73c2a2c3160dacf9f.jpeg', NULL),
-	(164, 10, '0efaa3c6605fb63cee12d8516bfd3d91709f53fa.jpeg', NULL),
-	(163, 10, 'c5267b7783f3d1d44e2bba53b753d1846bf79fc3.jpeg', NULL),
-	(162, 10, '3b2e33f8b86ce0160efd454183f3cf924633e85d.jpeg', NULL),
-	(177, 10, 'fd43acbdca4c8b64b8ead73ab4c5c89ca2b2c8db.jpeg', NULL),
-	(178, 10, 'a0fdee954c72d32146030d4fbce648363b4841ad.jpeg', NULL);
 /*!40000 ALTER TABLE `gallery_pictures` ENABLE KEYS */;
 
 
