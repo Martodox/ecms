@@ -5,9 +5,9 @@
         </a>
     </li>
     <li class="treeview">
-        <a href="#">
-            <i class="fa fa-picture-o"></i>
-            <span>{$l_gallery}</span>
+        <a href="{$rootpatch}{$p_Admin}/{$c_AdminPages}">
+            <i class="fa fa-pencil-square-o"></i>
+            <span>{$l_pagesmenu}</span>
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
@@ -17,8 +17,13 @@
         </ul>
     </li>
     <li>
+        <a href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_listGalleryCategories}">
+            <i class="fa fa-picture-o"></i> <span>{$l_gallery}</span>
+        </a>
+    </li>
+    <li>
         <a href="#">
-            <i class="fa fa-wrench"></i> <span>{$l_admincustomercare}</span>
+            <i class="fa fa-wheelchair"></i> <span>{$l_admincustomercare}</span>
         </a>
     </li>
     <li class="treeview">

@@ -40,6 +40,7 @@ class AdminUserController extends Controller
                     bind($salt, 'salt')->
                     bind((int) User::getID(), 'id', 'int')->
                     execute();
+            SLog::logActivity('SELFPASSWORDCHANGE');
             Help::redirect('Admin', 'AdminUser', null, 'success,password');
         }
 

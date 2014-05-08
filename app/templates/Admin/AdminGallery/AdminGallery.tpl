@@ -27,8 +27,8 @@
                         <thead>
                             <tr>     
                                 <th>#</th>
-                                <th>{$l_totalpicturenumber}</th>
                                 <th>{$l_categoryname}</th>
+                                <th>{$l_totalpicturenumber}</th>
                                 <th>{$l_seoname}</th>
                                 <th>{$l_activegallery}</th>
                                 <th>{$l_changeorder}</th>
@@ -39,8 +39,8 @@
                             {foreach from=$gallery_category name=catname item=category}
                                 <tr> 
                                     <td><a href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_uploadGalleryPhotos}/{$category.id}"><i class="fa fa-plus-square"></i></a></td>
-                                    <td>{$category.total}</td>
-                                    <td>{$category.name}</td>
+                                    <td><a href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_uploadGalleryPhotos}/{$category.id}">{$category.name}</a></td>
+                                    <td>{$category.total}</td>                                    
                                     <td>{$category.slug}</td>
                                     <td>
                                         {if $category.active eq 1}

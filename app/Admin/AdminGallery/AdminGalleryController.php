@@ -106,12 +106,14 @@ class AdminGalleryController extends Controller
                     bind($slug, 'slug')->
                     bind(0, 'active')->
                     execute();
+            SLog::logActivity('ADDGALLERY', $name);
         }
 
         $return['token'] = Model::newToken();
         $return['error'] = $error;
         $return['msg'] = $msg;
         echo json_encode($return);
+
         $this->hideTemplate();
     }
 
@@ -173,6 +175,7 @@ class AdminGalleryController extends Controller
                     bind($slug, 'slug')->
                     bind($id, 'id')->
                     execute();
+            SLog::logActivity('EDITGALLERY', $name);
         }
 
         $return['token'] = Model::newToken();
@@ -208,10 +211,10 @@ class AdminGalleryController extends Controller
 
 
             $filename = App::$db->
-                    create("SELECT `filename` FROM `gallery_pictures` WHERE  `id`= :id LIMIT 1")->
+                    create("SELECT p.filename, c.name AS category FROM gallery_pictures p LEFT JOIN gallery_category c ON p.category = c.id WHERE  p.id= 188 LIMIT 1")->
                     bind($id, 'id')->
                     execute();
-
+            $categoryname = $filename[0]['category'];
             $filename = $filename[0]['filename'];
 
             Upload::handle()->
@@ -222,6 +225,7 @@ class AdminGalleryController extends Controller
                     create("DELETE FROM `gallery_pictures` WHERE  `id`= :id")->
                     bind($id, 'id')->
                     execute();
+            SLog::logActivity('REMOVEPICTURE', $categoryname);
         } else {
             if (!$token) {
                 $msg = $msg . ',badtoken';
@@ -262,10 +266,12 @@ class AdminGalleryController extends Controller
         $return = array();
         $id = $data['catid'];
         if ($token) {
-            App::$db->
+            $name = App::$db->
+                    create("SELECT name FROM `gallery_category` WHERE  `id`= :id")->
+                    execute()->
                     create("DELETE FROM `gallery_category` WHERE  `id`= :id")->
-                    bind($id, 'id')->
-                    execute();
+                    bind($id, 'id');
+            SLog::logActivity('DELETECAT', $name[0]['name']);
         } else {
             if (!$token) {
                 $msg = $msg . ',badtoken';
@@ -328,6 +334,11 @@ class AdminGalleryController extends Controller
                     bind($upload['name'], 'filename')->
                     execute()->
                     lastId();
+            $name = App::$db->
+                    create("SELECT name FROM `gallery_category` WHERE  `id`= :id")->
+                    bind(ST::currentVars(1), 'id')->
+                    execute();
+            SLog::logActivity('ADDPICTURE', $name[0]['name']);
         }
         $return['name'] = $upload['name'];
         $return['id'] = $lastID;

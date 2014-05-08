@@ -3439,5 +3439,7 @@ input.correct {
     padding: 0px 2px;
     display: inline-block;
 }
-
+.order-change a {
+    cursor: pointer;
+}
 
