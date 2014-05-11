@@ -93,6 +93,7 @@ function delPicture(button) {
             button.addClass('disabled');
         },
         success: function(msg) {
+            console.log(msg);
             msg = JSON.parse(msg);
 
             $("#picture-" + msg.pictureid).remove();

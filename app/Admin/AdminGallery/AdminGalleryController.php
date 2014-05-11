@@ -211,7 +211,7 @@ class AdminGalleryController extends Controller
 
 
             $filename = App::$db->
-                    create("SELECT p.filename, c.name AS category FROM gallery_pictures p LEFT JOIN gallery_category c ON p.category = c.id WHERE  p.id= 188 LIMIT 1")->
+                    create("SELECT p.filename, c.name AS category FROM gallery_pictures p LEFT JOIN gallery_category c ON p.category = c.id WHERE  p.id= :id LIMIT 1")->
                     bind($id, 'id')->
                     execute();
             $categoryname = $filename[0]['category'];
