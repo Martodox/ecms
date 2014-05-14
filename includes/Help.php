@@ -3,15 +3,15 @@
 class Help
 {
 
-    public static function printer($arr, $plain = false)
+    public static function printer()
     {
-        if (!$plain) {
-            echo '<pre>';
+        $ar = func_get_args();
+        echo '<pre>';
+        foreach ($ar as $array) {
+            print_r($array);
+            echo "-------------------------------------------------------------------------\n";
         }
-        print_r($arr);
-        if (!$plain) {
-            echo '</pre>';
-        }
+        echo '</pre>';
     }
 
     public static function dumprint($arr)

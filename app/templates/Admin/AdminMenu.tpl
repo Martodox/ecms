@@ -40,5 +40,17 @@
             <li><a href="{$rootpatch}{$p_Admin}/{$c_AdminAuth}/{$a_AdminLogOut}"><i class="fa fa-angle-double-right"></i> {$l_logout}</a></li>
         </ul>
     </li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-wrench"></i>
+            <span>{$l_headerSettings}</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+
+            <li><a href="{$rootpatch}{$p_Admin}/{$c_AdminSettings}/{$a_premissionHome}"><i class="fa fa-angle-double-right"></i> {$l_headerSettingsPremissions}</a></li>
+
+        </ul>
+    </li>
 
 </ul>
