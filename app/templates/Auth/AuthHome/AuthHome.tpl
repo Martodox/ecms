@@ -5,11 +5,11 @@
         <title>{$siteTitle} | {$l_loginText}</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- bootstrap 3.0.2 -->
-        <link href="{$packroot}css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="{$temproot}Admin/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- font Awesome -->
-        <link href="{$packroot}css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="{$temproot}Admin/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
-        <link href="{$packroot}css/AdminLTE.css" rel="stylesheet" type="text/css" />
+        <link href="{$temproot}Admin/css/AdminLTE.css" rel="stylesheet" type="text/css" />
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -20,7 +20,7 @@
     <body class="bg-black">
         <div class="form-box" id="login-box">
             <div class="header">{$l_loginText}</div>
-            <form action="{$rootpatch}{$p_Admin}/{$c_AdminAuth}/{$a_AdminLoginAuthorize}" method="post">
+            <form action="{$rootpatch}{$p_Auth}/{$a_AdminLoginAuthorize}" method="post">
                 <div class="body bg-gray">
                     {if $showloginerror}
                         <div class="alert alert-danger no-margin alert-dismissable">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="footer">                                                               
                     <button type="submit" class="btn bg-olive btn-block">{$l_loginaction}</button>
-                    <p><a href="{$rootpatch}{$p_Admin}/{$c_AdminAuth}/{$a_forgotPassword}">{$l_userforgotpassword}</a></p>
+                    <p><a href="{$rootpatch}{$p_Auth}/{$a_forgotPassword}">{$l_userforgotpassword}</a></p>
                     <a href="{$rootpatch}" class="text-center">{$l_backtomainpage}</a>
                 </div>
                 <input type="hidden" name="csrftoken" value="{$formValidateToken}">

@@ -21,9 +21,16 @@ class SSF
     {
         header('Content-Type: text/html; charset=utf-8');
         $globalRewrite = App::$route->getGlobalRewrite();
+        User::checkFields();
+
+        //checks whether access level is sufficient and redirects to login page if not 
+        if ($globalRewrite['access'] > User::getLevel()) {
+            Help::redirect('Auth', null, null, 'notauthorised');
+        }
         $modelName = $globalRewrite['component'] . 'Model';
         $controllerName = $globalRewrite['component'] . 'Controller';
         $this->model = new $modelName();
+
 
         $this->controller = new $controllerName($this->model);
 

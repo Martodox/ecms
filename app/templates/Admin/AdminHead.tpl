@@ -57,7 +57,7 @@
                                         <a href="{$rootpatch}{$p_Admin}/{$c_AdminUser}" class="btn btn-default btn-flat">{$l_EditAccount}</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="{$rootpatch}{$p_Admin}/{$c_AdminAuth}/{$a_AdminLogOut}" class="btn btn-default btn-flat">{$l_logout}</a>
+                                        <a href="{$rootpatch}{$p_Auth}/{$a_AdminLogOut}" class="btn btn-default btn-flat">{$l_logout}</a>
                                     </div>
                                 </li>
                                 <li class="user-footer bg-light-blue">

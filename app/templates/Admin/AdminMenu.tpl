@@ -37,7 +37,7 @@
             <li><a href="{$rootpatch}{$p_Admin}/{$c_AdminUser}"><i class="fa fa-angle-double-right"></i> {$l_admineditaccdetails}</a></li>
             <li><a href="{$rootpatch}{$p_Admin}/{$c_AdminUser}/{$a_allUserList}"><i class="fa fa-angle-double-right"></i> {$l_allUserList}</a></li>
 
-            <li><a href="{$rootpatch}{$p_Admin}/{$c_AdminAuth}/{$a_AdminLogOut}"><i class="fa fa-angle-double-right"></i> {$l_logout}</a></li>
+            <li><a href="{$rootpatch}{$p_Auth}/{$a_AdminLogOut}"><i class="fa fa-angle-double-right"></i> {$l_logout}</a></li>
         </ul>
     </li>
     <li class="treeview">

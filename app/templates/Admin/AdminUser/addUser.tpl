@@ -19,10 +19,10 @@
                     <div class="form-group col col-lg-6">
                         <label for="level">{$l_level}</label>
                         <select name="level" id="level" class="form-control">
-{*                            {for $lv=1 to 10}
-                                <option value="{$lv}">Admin</option>
-                            {/for}*}
-                            <option value="10">Administrator</option>
+                            <option value="10">{$l_accountTypeAdmin}</option>
+                            <option value="7">{$l_accountTypeMod}</option>
+                            <option value="5">{$l_accountTypeEditor}</option>
+                            <option value="1">{$l_accountTypeNormal}</option>
                         </select>
 
                     </div>
@@ -62,9 +62,9 @@
 
     </div>
 </div>
-        
-        <script>
-            
-            $('#userData').simpleValidator();
-            $('#button-submit').bindSubmit();
-        </script>
+
+<script>
+
+    $('#userData').simpleValidator();
+    $('#button-submit').bindSubmit();
+</script>

@@ -7,7 +7,7 @@ class Help
     {
         $ar = func_get_args();
         echo '<pre>';
-        
+
         foreach ($ar as $array) {
             print_r($array);
             echo "-------------------------------------------------------------------------\n";
@@ -99,21 +99,6 @@ class Help
             return $var;
         }
         return htmlspecialchars($var);
-    }
-
-    public static function checkLogin($level = 1)
-    {
-        if ($_SESSION['user']['logged'] && $_SESSION['user']['level'] >= $level) {
-            return true;
-        }
-        return false;
-    }
-
-    public static function checkLoginRedirect($level = 1)
-    {
-        if (!$_SESSION['user']['logged'] || !$_SESSION['user']['level'] >= $level) {
-            self::redirect('Admin', 'AdminAuth');
-        }
     }
 
     public static function redirect($pacage = null, $controll = null, $action = null, $var = null)

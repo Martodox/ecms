@@ -16,11 +16,29 @@ class User
     public static function logOut()
     {
         unset($_SESSION['user']);
+        $_SESSION['user']['level'] = 0;
+        $_SESSION['user']['logged'] = false;
     }
 
     public static function setLevel($level)
     {
         $_SESSION['user']['level'] = $level;
+    }
+
+    public static function getLevel()
+    {
+        return $_SESSION['user']['level'];
+    }
+
+    public static function checkFields()
+    {
+        if (empty($_SESSION['user']['logged'])) {
+            $_SESSION['user']['logged'] = false;
+        }
+
+        if (empty($_SESSION['user']['level'])) {
+            $_SESSION['user']['level'] = 0;
+        }
     }
 
     public static function assignUserToSmarty()

@@ -4,13 +4,13 @@ App::$route->
         addCAction('AdminLoginAuthorize', 'pl', 'autoryzacja')->
         addCAction('AdminLogOut', 'pl', 'wyloguj-sie');
 
-class AdminAuthController extends Controller
+class AuthHomeController extends Controller
 {
 
     public function AdminLoginAuthorize()
     {
         if (!Model::validateToken()) {
-            Help::redirect('Admin', 'AdminAuth', null, 'error,token');
+            Help::redirect('Auth', null, null, 'error,token');
         }
         $password = Help::serverVar('post', 'password');
         $email = Help::serverVar('post', 'email');
@@ -39,8 +39,8 @@ class AdminAuthController extends Controller
             SLog::logActivity('LOGIN');
             Help::redirect('Admin');
         } else {
-            $_SESSION['wrongEmail'] = $email;
-            Help::redirect('Admin', 'AdminAuth', null, 'error');
+            $_SESSION['wrongEmail'] = true;
+            Help::redirect('Auth', null, null, 'error');
         }
     }
 
@@ -49,7 +49,7 @@ class AdminAuthController extends Controller
         SLog::logActivity('LOGOUT');
         User::logOut();
         session_regenerate_id();
-        Help::redirect('Admin', 'AdminAuth');
+        Help::redirect('Auth');
     }
 
 }

@@ -49,7 +49,7 @@
                                 <th>{$l_surname}</th>
                                 <th>Email</th>
                                 <th>{$l_active}</th>
-                                <th>{$l_level}</th>
+                                <th>{$l_accountType}</th>
                                 <th></th>
                             </tr>
                             {foreach from=$allUsers item=user}
@@ -65,7 +65,19 @@
                                             <span data-toggle="tooltip" data-placement="right" title="{$l_clicktoactivate}" class="label label-danger"><a class="text-white" href="{$rootpatch}{$p_Admin}/{$c_AdminUser}/{$a_AdminChangeStatus}/{$user.id}">{$l_notactive}</a></span>
                                             {/if}
                                     </td>
-                                    <td>{$user.level}</td>
+                                    <td>
+                                        {if $user.level eq 10}
+                                            {$l_accountTypeAdmin}
+                                        {elseif $user.level eq 7}
+                                            {$l_accountTypeMod}
+                                        {elseif $user.level eq 5}
+                                            {$l_accountTypeEditor}
+                                        {elseif $user.level eq 1}   
+                                            {$l_accountTypeNormal}
+                                        {else}
+                                            {$l_accountTypeUnknow} : {$user.level}
+                                        {/if}
+                                    </td>
                                     <td><a class="btn btn-info btn-xs removecontent" href="{$rootpatch}{$p_Admin}/{$c_AdminUser}/{$a_ajaxUserEdit}/{$user.id}"  data-toggle="modal" data-target="#myModal">{$l_edit}</a></td>
                                 </tr>
                             {/foreach}

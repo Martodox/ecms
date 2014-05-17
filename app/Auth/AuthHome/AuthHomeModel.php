@@ -3,15 +3,16 @@
 App::$route->
         addMAction('forgotPassword', 'pl', 'przypomnij-haslo');
 
-class AdminAuthModel extends Model
+class AuthHomeModel extends Model
 {
 
     public function __construct()
     {
 
         parent::__construct();
+
         if (Help::isLoggedIn() && !Help::isActionSet('AdminLogOut')) {
-            Help::redirect('Admin');
+            //Help::redirect('Admin');
         }
 
         if (!empty($_SESSION['wrongEmail'])) {

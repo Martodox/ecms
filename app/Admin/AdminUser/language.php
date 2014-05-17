@@ -25,6 +25,7 @@ App::$route->
         addDialog('active', 'pl', 'Aktywny')->
         addDialog('notactive', 'pl', 'Nieaktywny')->
         addDialog('level', 'pl', 'Poziom')->
+        addDialog('accountType', 'pl', 'Typ konta')->
         addDialog('activateSelected', 'pl', 'Aktywuj zaznaczonych')->
         addDialog('deactivateSelected', 'pl', 'Zablokuj zaznaczonych')->
         addDialog('removeSelected', 'pl', 'Skasuj zaznaczonych')->
@@ -32,4 +33,9 @@ App::$route->
         addDialog('clicktodeactivate', 'pl', 'Kliknij, aby dezaktywować')->
         addDialog('edit', 'pl', 'Edytuj')->
         addDialog('removeuser', 'pl', 'Skasuj użytkownika')->
-        addDialog('save', 'pl', 'Zapisz');
+        addDialog('save', 'pl', 'Zapisz')->
+        addDialog('accountTypeAdmin', 'pl', 'Administrator')->
+        addDialog('accountTypeMod', 'pl', 'Moderator')->
+        addDialog('accountTypeEditor', 'pl', 'Redaktor')->
+        addDialog('accountTypeNormal', 'pl', 'Użytkownik')->
+        addDialog('accountTypeUnknow', 'pl', 'Typ nieznany');

@@ -17,10 +17,7 @@ class Model
         $this->extraJS = array();
         $this->displayTemplate = true;
         $this->template = substr(get_class($this), 0, -5);
-        if (empty($_SESSION['user'])) {
-            $_SESSION['user']['logged'] = false;
-            $_SESSION['user']['level'] = 0;
-        }
+
 
         if (empty($_SESSION['formValidate']['new'])) {
             $_SESSION['formValidate']['new'] = Help::uniqueId();

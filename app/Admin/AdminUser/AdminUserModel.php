@@ -1,7 +1,7 @@
 <?php
 
 App::$route->
-        addMAction('allUserList', 'pl', 'lista-uzytkownikow')->
+        addMAction(10, 'allUserList', 'pl', 'lista-uzytkownikow')->
         addMAction('ajaxUserAdd', 'pl', 'zladuj-dane-uzytkownika-ajax')->
         addMAction('ajaxUserEdit', 'pl', 'edytuj-uzytkownika');
 
@@ -11,7 +11,6 @@ class AdminUserModel extends Model
     public function __construct()
     {
         parent::__construct();
-        Help::checkLoginRedirect();
         User::assignUserToSmarty();
         $this->addJS('modal_button', 'notify.min', 'simpleValidator', 'formSubmitBind', 'formSubmit', 'validatePlaces');
     }
