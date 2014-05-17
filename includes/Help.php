@@ -7,6 +7,7 @@ class Help
     {
         $ar = func_get_args();
         echo '<pre>';
+        
         foreach ($ar as $array) {
             print_r($array);
             echo "-------------------------------------------------------------------------\n";

@@ -5,6 +5,7 @@ $globalRewrite = array(
     'component' => "Home",
     'action' => "",
     'file' => "",
+    'access' => 0,
     'vars' => array()
 );
 

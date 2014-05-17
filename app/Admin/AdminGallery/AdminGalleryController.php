@@ -114,7 +114,7 @@ class AdminGalleryController extends Controller
         $return['msg'] = $msg;
         echo json_encode($return);
 
-        $this->hideTemplate();
+        $this->model->hideTemplate();
     }
 
     public function ajaxEditGalleryCat()
@@ -182,7 +182,7 @@ class AdminGalleryController extends Controller
         $return['error'] = $error;
         $return['msg'] = $msg;
         echo json_encode($return);
-        $this->hideTemplate();
+        $this->model->hideTemplate();
     }
 
     public function ajaxRemovePicture()
@@ -239,7 +239,7 @@ class AdminGalleryController extends Controller
         $return['msg'] = $msg;
         $return['pictureid'] = $id;
         echo json_encode($return);
-        $this->hideTemplate();
+        $this->model->hideTemplate();
     }
 
     public function ajaxDelGalleryCat()
@@ -284,7 +284,7 @@ class AdminGalleryController extends Controller
         $return['error'] = $error;
         $return['msg'] = $msg;
         echo json_encode($return);
-        $this->hideTemplate();
+        $this->model->hideTemplate();
     }
 
     /**
@@ -294,7 +294,7 @@ class AdminGalleryController extends Controller
     public function AdminGalleryChangeStatus()
     {
         Help::ajaxAuthenticateRequest();
-        $this->hideTemplate();
+        $this->model->hideTemplate();
         $id = ST::currentVars(1);
         $status = App::$db->
                 create('UPDATE `gallery_category` SET `active` = 1 - `active` WHERE `id` = :id')->
@@ -344,7 +344,7 @@ class AdminGalleryController extends Controller
         $return['id'] = $lastID;
         $return['link'] = rootpatch . ST::gP('Admin') . '/' . ST::gC('AdminGallery') . '/' . ST::gAM('ajaxShowEditPicture') . '/' . $lastID;
 
-        $this->hideTemplate();
+        $this->model->hideTemplate();
         echo json_encode($return);
     }
 

@@ -34,9 +34,20 @@ class Controller
         header('Location: ' . $location);
     }
 
-    public function hideTemplate()
+    /**
+     * @uses Model::passToControll()
+     * @return none
+     */
+    public function syncMethods()
     {
-        $this->model->displayTemplate = false;
+
+        foreach ($this->model->controlSync as $method) {
+            try {
+                call_user_func(array($this, $method));
+            } catch (Exception $ex) {
+                SLog::toFile($ex);
+            }
+        }
     }
 
 }

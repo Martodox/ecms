@@ -144,7 +144,7 @@ class AdminUserController extends Controller
         $return['error'] = $error;
         $return['msg'] = $msg;
         echo json_encode($return);
-        $this->hideTemplate();
+        $this->model->hideTemplate();
     }
 
     public function ajaxCheckEmail()
@@ -160,7 +160,7 @@ class AdminUserController extends Controller
         }
         $return['token'] = Model::newToken();
         echo json_encode($return);
-        $this->hideTemplate();
+        $this->model->hideTemplate();
     }
 
     public function ajaxRemoveUser()
@@ -194,7 +194,7 @@ class AdminUserController extends Controller
         $return['error'] = $error;
         $return['token'] = Model::newToken();
         echo json_encode($return);
-        $this->hideTemplate();
+        $this->model->hideTemplate();
     }
 
     public function AdminChangeStatus()

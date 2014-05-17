@@ -1,6 +1,7 @@
 <?php
 
 App::$route->
+        addDialog('AdminHome', 'pl', 'Strona startowa')->
         addDialog('Hello', 'pl', 'Witaj')->
         addDialog('AdminBegining', 'pl', 'Początek panelu')->
         addDialog('EditAccount', 'pl', 'Edytuj konto')->
@@ -8,5 +9,5 @@ App::$route->
         addDialog('adminchangepassword', 'pl', 'Zmiana hasła')->
         addDialog('admineditaccdetails', 'pl', 'Edytj konto')->
         addDialog('adminyouraccount', 'pl', 'Twoje konto')->
-        addDialog('adminhomepage', 'pl','Strona główna')->
+        addDialog('adminhomepage', 'pl', 'Strona główna')->
         addDialog('admincustomercare', 'pl', 'Pomoc techniczna');

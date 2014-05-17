@@ -1,6 +1,7 @@
 <?php
 
 App::$route->
+        addDialog('AdminAuth', 'pl', 'Autoryzacja użytkownika')->
         addDialog('loginInfo', 'pl', 'Witaj w panelu administracyjnym. Nie jesteś zalogowany. Wprowadź swoje dane dostępowe aby przejść dalej')->
         addDialog('loginText', 'pl', 'Logowanie')->
         addDialog('password', 'pl', 'hasło')->

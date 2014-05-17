@@ -8,10 +8,12 @@ class Model
     public $displayTemplate;
     private $extraCSS;
     private $extraJS;
+    public $controlSync;
 
     public function __construct()
     {
         $this->extraCSS = array();
+        $this->controlSync = array();
         $this->extraJS = array();
         $this->displayTemplate = true;
         $this->template = substr(get_class($this), 0, -5);
@@ -98,6 +100,9 @@ class Model
         $this->template = $name;
     }
 
+    /**
+     * @uses Model::$displayTemplate Prevents smarty template from executing in Controller::display() method
+     */
     public function hideTemplate()
     {
         $this->displayTemplate = false;
@@ -118,6 +123,15 @@ class Model
     public static function newToken()
     {
         return $_SESSION['formValidate']['new'];
+    }
+
+    /**
+     * Passes names of the methods which live in controller to be executed from model
+     * @param String $methodName This has to be a valid method from components controller. Errors are written to log file.
+     */
+    public function passToControll($methodName)
+    {
+        array_push($this->controlSync, $methodName);
     }
 
 }
