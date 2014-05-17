@@ -15,9 +15,5 @@ class AdminSettingsModel extends Model
         }
     }
 
-    public function premissionHome()
-    {
-        $this->passToControll(syncCategories);
-    }
 
 }
