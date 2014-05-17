@@ -7,7 +7,6 @@ class AdminHomeModel extends Model
     {
         parent::__construct();
 
-        Help::checkLoginRedirect();
         User::assignUserToSmarty();
         self::addTitle('Panel');
     }

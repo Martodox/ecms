@@ -112,12 +112,13 @@ class Help
     public static function checkLoginRedirect($level = 1)
     {
         if (!$_SESSION['user']['logged'] || !$_SESSION['user']['level'] >= $level) {
-            self::redirect('Admin', 'AdminAuth', 'login');
+            self::redirect('Admin', 'AdminAuth');
         }
     }
 
     public static function redirect($pacage = null, $controll = null, $action = null, $var = null)
     {
+
         $location = rootpatch;
         $location = ($pacage !== null) ? $location = $location . App::$route->returnPacage($pacage) . '/' : $location;
         $location = ($controll !== null) ? $location = $location . App::$route->returnComponent($controll) . '/' : $location;

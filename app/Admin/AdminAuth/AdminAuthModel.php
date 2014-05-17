@@ -1,7 +1,6 @@
 <?php
 
 App::$route->
-        addMAction('login', 'pl', 'zaloguj', 'en', 'login')->
         addMAction('forgotPassword', 'pl', 'przypomnij-haslo');
 
 class AdminAuthModel extends Model
@@ -17,7 +16,6 @@ class AdminAuthModel extends Model
 
         if (!empty($_SESSION['wrongEmail'])) {
             App::$smarty->assign('wrongemail', $_SESSION['wrongEmail']);
-            unset($_SESSION['wrongEmail']);
         }
 
         if (Help::getVar(1) == 'error') {
