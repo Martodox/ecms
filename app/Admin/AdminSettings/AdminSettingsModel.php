@@ -9,6 +9,7 @@ class AdminSettingsModel extends Model
     public function __construct()
     {
         parent::__construct();
+        Help::checkLoginRedirect();
         User::assignUserToSmarty();
         if (!ST::isActionSet()) {
             Help::redirect('Admin', 'AdminSettings', 'premissionHome');

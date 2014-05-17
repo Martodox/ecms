@@ -11,7 +11,7 @@ class AdminUserModel extends Model
     public function __construct()
     {
         parent::__construct();
-
+        Help::checkLoginRedirect();
         User::assignUserToSmarty();
         $this->addJS('modal_button', 'notify.min', 'simpleValidator', 'formSubmitBind', 'formSubmit', 'validatePlaces');
     }
