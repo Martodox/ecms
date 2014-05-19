@@ -15,22 +15,25 @@ if (!isset($_GET['get'])) {
 
 $link = explode('/', $_GET['get']);
 
+$emptyLink = 1;
 for ($i = 0; $i <= 3; $i++) {
     if (!isset($link[$i])) {
         $link[$i] = "";
+        echo $emptyLink++;
     }
 }
 
 foreach (App::$route->getRouteDialogs() as $key => $class) {
     App::$smarty->assign('l_' . $key, $class[$_SESSION['lang']], true);
 }
+Help::printer($link);
+//echo $emptyLink;
+$pacageSet = false;
+$componentSet = false;
+$actionSet = false;
+if ($emptyLink != 4) {
 
-  
-if (!empty($link)) {
 
-    $pacageSet = false;
-    $componentSet = false;
-    $actionSet = false;
 
     foreach (App::$route->getRoutePacage() as $key => $class) {
 
@@ -38,7 +41,7 @@ if (!empty($link)) {
             $globalRewrite['pacage'] = htmlspecialchars($key);
             $pacageSet = true;
             if (isset($class['access']) && is_int($class['access'])) {
-                if ($globalRewrite['access'] < $class['access']) {
+                if ($globalRewrite['access'] < $class['access'] && $class['access'] !== 0) {
                     $globalRewrite['access'] = $class['access'];
                 }
             }
@@ -51,7 +54,7 @@ if (!empty($link)) {
             $globalRewrite['component'] = htmlspecialchars($key);
             $componentSet = true;
             if (isset($class['access']) && is_int($class['access'])) {
-                if ($globalRewrite['access'] < $class['access']) {
+                if ($globalRewrite['access'] < $class['access'] && $class['access'] !== 0) {
                     $globalRewrite['access'] = $class['access'];
                 }
             }
@@ -66,7 +69,7 @@ if (!empty($link)) {
                 $globalRewrite['file'] = htmlspecialchars($filename);
                 $actionSet = true;
                 if (isset($action['access']) && is_int($action['access'])) {
-                    if ($globalRewrite['access'] < $action['access']) {
+                    if ($globalRewrite['access'] < $action['access'] && $class['access'] !== 0) {
                         $globalRewrite['access'] = $action['access'];
                     }
                 }
@@ -74,16 +77,8 @@ if (!empty($link)) {
             App::$smarty->assign('a_' . $key, $action[$_SESSION['lang']], true);
         }
     }
- 
-    if (!$componentSet) {
-        $defaultComponent = $globalRewrite['pacage'] . $globalRewrite['component'];
-        $defaultPremissions = App::$route->getRouteComponents($defaultComponent);
-        $defaultPremissions['access'] = (!empty($defaultPremissions['access']) ? $defaultPremissions['access'] : 0);
-        if ($globalRewrite['access'] < $defaultPremissions['access']) {
-            $globalRewrite['access'] = $defaultPremissions['access'];
-        }
-        $globalRewrite['component'] = $defaultComponent;
-    }
+
+
     if ($actionSet && $componentSet) {
         $globalRewrite['vars'] = explode(',', $link[$position + 2]);
     } else if (($actionSet && !$componentSet) || (!$actionSet && $componentSet)) {
@@ -98,7 +93,16 @@ if (!empty($link)) {
         $globalRewrite['vars'][$i] = htmlspecialchars($globalRewrite['vars'][$i]);
     }
 }
-
+if (!$componentSet) {
+    $defaultComponent = $globalRewrite['pacage'] . $globalRewrite['component'];
+    $defaultPremissions = App::$route->getRouteComponents($defaultComponent);
+    $defaultPremissions['access'] = (!empty($defaultPremissions['access']) ? $defaultPremissions['access'] : 0);
+    if ($globalRewrite['access'] < $defaultPremissions['access'] && $class['access'] !== 0) {
+        $globalRewrite['access'] = $defaultPremissions['access'];
+    }
+    $globalRewrite['component'] = $defaultComponent;
+}
+Help::printer($globalRewrite);
 App::$smarty->assign('g_vars', $globalRewrite['vars']);
 App::$smarty->assign('rewrite', $globalRewrite);
 $tmp = (empty($globalRewrite['vars']) ? false : true);

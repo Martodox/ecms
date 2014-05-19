@@ -1,6 +1,6 @@
 <?php
 
-class classMysql
+class classMysql implements sqlInterface
 {
 
     private $connection;
@@ -28,6 +28,11 @@ class classMysql
         return new classMysql();
     }
 
+    /**
+     * 
+     * @param String $query
+     * @return \classMysql
+     */
     public static function create($query)
     {
         $instance = new classMysql();
@@ -35,6 +40,13 @@ class classMysql
         return $instance;
     }
 
+    /**
+     * 
+     * @param String $value
+     * @param String $name
+     * @param String $type
+     * @return \classMysql
+     */
     public function bind($value, $name, $type = "str")
     {
         $type = self::getDataType($type);
@@ -44,6 +56,12 @@ class classMysql
         return $this;
     }
 
+    /**
+     * 
+     * @param String $query
+     * @param bool $forceReturn
+     * @return type
+     */
     public static function simpleQuery($query = null, $forceReturn = false)
     {
         $instance = new classMysql();
@@ -71,6 +89,11 @@ class classMysql
         return config_MySql_dbname;
     }
 
+    /**
+     * 
+     * @param String $query
+     * @return boolean
+     */
     private function checkReturn($query = null)
     {
         $query = explode(" ", $query);
@@ -89,6 +112,10 @@ class classMysql
         $this->prepareQuery = $this->connection->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     }
 
+    /**
+     * 
+     * @return \classMysql
+     */
     public function execute()
     {
         try {
@@ -105,6 +132,11 @@ class classMysql
         return $this;
     }
 
+    /**
+     * 
+     * @param String $short
+     * @return int
+     */
     private static function getDataType($short)
     {
         $return = "";
