@@ -29,7 +29,7 @@ foreach ($folder as $one) {
     }
 }
 
-require_once ABSPATH . 'core/globalRewrite.php';
+//require_once ABSPATH . 'core/globalRewrite.php';
 require_once ABSPATH . 'core/globalRewrite2.php';
 new globalRewrite2();
 require_once ABSPATH . 'core/ST.php';
