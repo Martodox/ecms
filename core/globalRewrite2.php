@@ -125,10 +125,13 @@ class globalRewrite2
         self::setSmartyLang(self::$routeActions['Model'], 'a');
         self::setSmartyLang(self::$routeActions['Controller'], 'a');
 
+        self::setRewrite(self::$routePacage, $this->position, $this->pacage, $this->isPacageSet);
+        $this->fixPosition();
+        self::setRewrite(self::$routeComponents, $this->position, $this->component, $this->isComponentSet);
+
+
         $compile = $this->compile();
         App::$route->setGlobalRewrite($compile);
-        Help::printer(self::$link);
-        Help::printer($compile);
     }
 
     /**
@@ -164,21 +167,36 @@ class globalRewrite2
         }
     }
 
-    private function dfasdas()
+    /**
+     * 
+     * @param Array $source
+     * @param integer $position
+     * @param String $result
+     * @param boolean $isset
+     * @return void
+     */
+    private function setRewrite($source, $position, &$result, &$isset = false)
     {
-        foreach (App::$route->getRoutePacage() as $key => $class) {
-
-            if (in_array($link[0], $class)) {
-                $globalRewrite['pacage'] = htmlspecialchars($key);
-                $pacageSet = true;
+        foreach ($source as $key => $class) {
+            if (in_array(self::$link[$position], $class, true)) {
+                $result = htmlspecialchars($key);
+                $isset = true;
                 if (isset($class['access']) && is_int($class['access'])) {
-                    if ($globalRewrite['access'] < $class['access'] && $class['access'] !== 0) {
-                        $globalRewrite['access'] = $class['access'];
+                    if ($this->access < $class['access'] && $class['access'] !== 0) {
+                        $this->access = $class['access'];
                     }
                 }
+                break;
             }
-            App::$smarty->assign('p_' . $key, $class[$_SESSION['lang']], true);
         }
+    }
+
+    /**
+     * @return void
+     */
+    private function fixPosition()
+    {
+        $this->position = ($this->isPacageSet ? 1 : 0);
     }
 
     /**
@@ -191,7 +209,6 @@ class globalRewrite2
 
 
         if (!$this->isActionSet) {
-            echo $this->component;
             $this->component = $this->pacage . $this->component;
             $defaultPremissions = App::$route->getRouteComponents($this->component);
             $defaultPremissions['access'] = (!empty($defaultPremissions['access']) ? $defaultPremissions['access'] : 0);

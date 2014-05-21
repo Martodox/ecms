@@ -1,35 +1,34 @@
 <?php
 
-$globalRewrite = array(
-    'pacage' => "Default",
-    'component' => "Home",
-    'action' => "",
-    'file' => "",
-    'vars' => array(),
-    'access' => 0
-);
-
-if (!isset($_GET['get'])) {
-    $_GET['get'] = "";
-}
-
-$link = explode('/', $_GET['get']);
-
-$emptyLink = 1;
-for ($i = 0; $i <= 3; $i++) {
-    if (!isset($link[$i])) {
-        $link[$i] = "";
-    }
-}
-
-foreach (App::$route->getRouteDialogs() as $key => $class) {
-    App::$smarty->assign('l_' . $key, $class[$_SESSION['lang']], true);
-}
-
-
-$pacageSet = false;
-$componentSet = false;
-$actionSet = false;
+//$globalRewrite = array(
+//    'pacage' => "Default",
+//    'component' => "Home",
+//    'action' => "",
+//    'file' => "",
+//    'vars' => array(),
+//    'access' => 0
+//);
+//
+//if (!isset($_GET['get'])) {
+//    $_GET['get'] = "";
+//}
+//
+//$link = explode('/', $_GET['get']);
+//
+//for ($i = 0; $i <= 3; $i++) {
+//    if (!isset($link[$i])) {
+//        $link[$i] = "";
+//    }
+//}
+//
+//foreach (App::$route->getRouteDialogs() as $key => $class) {
+//    App::$smarty->assign('l_' . $key, $class[$_SESSION['lang']], true);
+//}
+//
+//
+//$pacageSet = false;
+//$componentSet = false;
+//$actionSet = false;
 
 
 
