@@ -1,108 +1,303 @@
 <?php
 
-$globalRewrite = array(
-    'pacage' => "Default",
-    'component' => "Home",
-    'action' => "",
-    'file' => "",
-    'vars' => array(),
-    'access' => 0
-);
+class globalRewrite
+{
 
-if (!isset($_GET['get'])) {
-    $_GET['get'] = "";
-}
+    /**
+     * Holds current link data
+     * @var Array
+     */
+    private static $link;
 
-$link = explode('/', $_GET['get']);
+    /**
+     * routeDialogs from all around the app
+     * @var Array
+     */
+    private static $routeDialogs;
 
-$emptyLink = 1;
-for ($i = 0; $i <= 3; $i++) {
-    if (!isset($link[$i])) {
-        $link[$i] = "";
+    /**
+     * app pacages from all around the app
+     * @var Array
+     */
+    private static $routePacage;
+
+    /**
+     * app components from all around the app
+     * @var Array
+     */
+    private static $routeComponents;
+
+    /**
+     * controller and model actions from all around the app
+     * @var Array
+     */
+    private static $routeActions;
+
+    /**
+     * Current language from session variable
+     * @var String
+     */
+    private static $cLang;
+
+    /**
+     *
+     * @var String 
+     */
+    private $action;
+
+    /**
+     *
+     * @var String 
+     */
+    private $pacage;
+
+    /**
+     *
+     * @var String 
+     */
+    private $component;
+
+    /**
+     *
+     * @var String 
+     */
+    private $file;
+
+    /**
+     *
+     * @var Array 
+     */
+    private $vars;
+
+    /**
+     *
+     * @var int 
+     */
+    private $access;
+
+    /**
+     *
+     * @var int 
+     */
+    private $position;
+
+    /**
+     *
+     * @var boolean
+     */
+    private $isPacageSet;
+
+    /**
+     *
+     * @var boolean
+     */
+    private $isActionSet;
+
+    /**
+     *
+     * @var boolean
+     */
+    private $isComponentSet;
+
+    public function __construct()
+    {
+        $this->access = 0;
+        $this->position = 0;
+        $this->isPacageSet = false;
+        $this->isActionSet = false;
+        $this->isComponentSet = false;
+        $this->action = "";
+        $this->component = "Home";
+        $this->file = "";
+        $this->pacage = "Default";
+        $this->vars = array();
+        self::$cLang = $_SESSION['lang'];
+        self::$routeActions = App::$route->getRouteActions();
+        self::$routeComponents = App::$route->getRouteComponents();
+        self::$routeDialogs = App::$route->getRouteDialogs();
+        self::$routePacage = App::$route->getRoutePacage();
+
+        self::setLink();
+
+        self::setSmartyLang(self::$routePacage, 'p');
+        self::setSmartyLang(self::$routeDialogs, 'l');
+        self::setSmartyLang(self::$routeComponents, 'c');
+        self::setSmartyLang(self::$routeActions['Model'], 'a');
+        self::setSmartyLang(self::$routeActions['Controller'], 'a');
+
+        $this->setRewrite(self::$routePacage, $this->pacage, $this->isPacageSet);
+        $this->fixPosition();
+        $this->setRewrite(self::$routeComponents, $this->component, $this->isComponentSet);
+        $this->setAction(self::$routeActions);
+        $this->cleanVars();
+
+        $compile = $this->compile();
+
+        App::$smarty->assign('g_vars', $this->vars);
+        App::$smarty->assign('rewrite', $compile);
+        $tmp = (empty($this->vars) ? false : true);
+        App::$smarty->assign('isVarSet', $tmp);
+
+        App::$route->setGlobalRewrite($compile);
     }
-}
 
-foreach (App::$route->getRouteDialogs() as $key => $class) {
-    App::$smarty->assign('l_' . $key, $class[$_SESSION['lang']], true);
-}
+    /**
+     * Breakes $_GET['link'] into logic parts
+     * @return void
+     */
+    static private function setLink()
+    {
+        if (!isset($_GET['get'])) {
+            $_GET['get'] = "";
+        }
 
+        $link = explode('/', $_GET['get']);
 
-$pacageSet = false;
-$componentSet = false;
-$actionSet = false;
+        for ($i = 0; $i <= 3; $i++) {
+            if (!isset($link[$i])) {
+                $link[$i] = "";
+            }
+        }
+        if (empty($link)) {
+            $link[0] = 'start';
+        }
+        self::$link = $link;
+    }
 
+    /**
+     * Cleans get additional variables with htmlspecialchars
+     * @return void
+     */
+    private function cleanVars()
+    {
+        foreach ($this->vars as &$var) {
+            $var = htmlspecialchars($var);
+        }
+    }
 
+    /**
+     * Gathers all language dialogs around the app
+     * @param App::$route->get... $src
+     * @param String $prefix
+     * @return void
+     */
+    private static function setSmartyLang($src, $prefix)
+    {
+        foreach ($src as $key => $class) {
+            App::$smarty->assign($prefix . '_' . $key, $class[$_SESSION['lang']], true);
+        }
+    }
 
-
-foreach (App::$route->getRoutePacage() as $key => $class) {
-
-    if (in_array($link[0], $class)) {
-        $globalRewrite['pacage'] = htmlspecialchars($key);
-        $pacageSet = true;
-        if (isset($class['access']) && is_int($class['access'])) {
-            if ($globalRewrite['access'] < $class['access'] && $class['access'] !== 0) {
-                $globalRewrite['access'] = $class['access'];
+    /**
+     * Sets pacages and components routes
+     * @param Array $source
+     * @param integer $position
+     * @param String $result
+     * @param boolean $isset
+     * @return void
+     */
+    private function setRewrite($source, &$result, &$isset = false)
+    {
+        foreach ($source as $key => $class) {
+            if (in_array(self::$link[$this->position], $class, true)) {
+                $result = htmlspecialchars($key);
+                $isset = true;
+                if (!empty($class['access'])) {
+                    $this->setAccess($class['access']);
+                }
+                break;
             }
         }
     }
-}
-$position = ($pacageSet ? 1 : 0);
-foreach (App::$route->getRouteComponents() as $key => $class) {
-    if (in_array($link[$position], $class)) {
-        $globalRewrite['component'] = htmlspecialchars($key);
-        $componentSet = true;
-        if (isset($class['access']) && is_int($class['access'])) {
-            if ($globalRewrite['access'] < $class['access'] && $class['access'] !== 0) {
-                $globalRewrite['access'] = $class['access'];
-            }
-        }
-    }
-}
 
-foreach (App::$route->getRouteActions() as $filename => $file) {
-    foreach ($file as $key => $action) {
-        if (in_array($link[$position], $action) || in_array($link[$position + 1], $action)) {
-            $globalRewrite['action'] = htmlspecialchars($key);
-            $globalRewrite['file'] = htmlspecialchars($filename);
-            $actionSet = true;
-            if (isset($action['access']) && is_int($action['access'])) {
-                if ($globalRewrite['access'] < $action['access'] && $class['access'] !== 0) {
-                    $globalRewrite['access'] = $action['access'];
+    /**
+     * Sets action and points to right file
+     * @param Array $source
+     * @param integer $position
+     * @param String $result
+     * @param boolean $isset
+     * @return void
+     */
+    private function setAction($source)
+    {
+        foreach ($source as $key => $class) {
+            foreach ($class as $actionName => $action) {
+                if (in_array(self::$link[$this->position], $action, true) || in_array(self::$link[$this->position + 1], $action, true)) {
+                    $this->action = htmlspecialchars($actionName);
+                    $this->file = htmlspecialchars($key);
+                    $this->isActionSet = true;
+                    if (!empty($action['access'])) {
+                        $this->setAccess($action['access']);
+                    }
+
+                    break;
                 }
             }
         }
     }
-}
 
-
-if ($actionSet && $componentSet) {
-    $globalRewrite['vars'] = explode(',', $link[$position + 2]);
-} else if (($actionSet && !$componentSet) || (!$actionSet && $componentSet)) {
-    $globalRewrite['vars'] = explode(',', $link[$position + 1]);
-} else {
-    if (!$actionSet && !$componentSet) {
-        $globalRewrite['vars'] = explode(',', $link[$position + 0]);
+    /**
+     * Elevates access level
+     * @param int $access
+     * @return void
+     */
+    private function setAccess($access)
+    {
+        if (isset($access) && is_int($access)) {
+            if ($this->access <= $access && $access !== 0) {
+                $this->access = $access;
+            }
+        }
     }
-}
 
-for ($i = 0; $i < count($globalRewrite['vars']) - 1; $i++) {
-    $globalRewrite['vars'][$i] = htmlspecialchars($globalRewrite['vars'][$i]);
-}
-
-if (!$componentSet) {
-    $defaultComponent = $globalRewrite['pacage'] . $globalRewrite['component'];
-    $defaultPremissions = App::$route->getRouteComponents($defaultComponent);
-    $defaultPremissions['access'] = (!empty($defaultPremissions['access']) ? $defaultPremissions['access'] : 0);
-    if ($globalRewrite['access'] < $defaultPremissions['access'] && $class['access'] !== 0) {
-        $globalRewrite['access'] = $defaultPremissions['access'];
+    /**
+     * Checks if paage is set and adjusts the position
+     * 
+     * @return void
+     */
+    private function fixPosition()
+    {
+        $this->position = ($this->isPacageSet ? 1 : 0);
     }
-    $globalRewrite['component'] = $defaultComponent;
+
+    /**
+     * Returns an array which then gets procesed bo app engine in SSF.php file
+     * 
+     * @return Array 
+     */
+    private function compile()
+    {
+
+
+        if (!$this->isComponentSet) {
+            $this->component = $this->pacage . $this->component;
+            $defaultPremissions = App::$route->getRouteComponents($this->component);
+            $defaultPremissions['access'] = (!empty($defaultPremissions['access']) ? $defaultPremissions['access'] : 0);
+            if ($this->access < $defaultPremissions['access']) {
+                $this->access = $defaultPremissions['access'];
+            }
+        }
+
+        if ($this->isActionSet && $this->isComponentSet) {
+            $this->vars = explode(',', self::$link[$this->position + 2]);
+        } else if (($this->isActionSet && !$this->isComponentSet) || (!$this->isActionSet && $this->isComponentSet)) {
+            $this->vars = explode(',', self::$link[$this->position + 1]);
+        } else {
+            if (!$this->isActionSet && !$this->isComponentSet) {
+                $this->vars = explode(',', self::$link[$this->position + 0]);
+            }
+        }
+
+
+
+        return array(
+            'pacage' => $this->pacage,
+            'component' => $this->component,
+            'action' => $this->action,
+            'file' => $this->file,
+            'vars' => $this->vars,
+            'access' => $this->access
+        );
+    }
+
 }
-
-App::$smarty->assign('g_vars', $globalRewrite['vars']);
-App::$smarty->assign('rewrite', $globalRewrite);
-$tmp = (empty($globalRewrite['vars']) ? false : true);
-App::$smarty->assign('isVarSet', $tmp);
-App::$route->setGlobalRewrite($globalRewrite);
-
-

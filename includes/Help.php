@@ -9,6 +9,9 @@ class Help
         echo '<pre>';
 
         foreach ($ar as $array) {
+            if (!is_array($array)) {
+                $array = array($array);
+            }
             print_r($array);
             echo "-------------------------------------------------------------------------\n";
         }
@@ -149,18 +152,25 @@ class Help
     {
         if ($number < 0) {
             $var = App::$route->getGlobalRewrite();
-            $var = $var['vars'];
+            if (!empty($var['vars'])) {
+                $var = $var['vars'];
+            }
+
             if (!empty($var)) {
                 return $var;
             }
         } else {
             $number--;
             $var = App::$route->getGlobalRewrite();
-            $var = $var['vars'][$number];
+            if (!empty($var['vars'][$number])) {
+                $var = $var['vars'][$number];
+            }
+
             if (!empty($var)) {
                 return $var;
             }
         }
+        return false;
     }
 
     public static function validateEmail($email)

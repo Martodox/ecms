@@ -53,6 +53,8 @@ class SSF
         } catch (Exception $ex) {
             $this->controller->display('404');
         }
+
+       
     }
 
 }

@@ -15,7 +15,7 @@ require_once ABSPATH . 'includes/Upload.php';
 require_once ABSPATH . 'core/Route.php';
 
 
-$fileIgnore = array('Route.php', 'classIncluder.php', 'SSF.php', 'App.php', 'globalRewrite.php', 'ST.php', 'sqlInterface.php');
+$fileIgnore = array('Route.php', 'classIncluder.php', 'SSF.php', 'App.php', 'ST.php', 'sqlInterface.php');
 require_once ABSPATH . 'core/App.php';
 new App();
 foreach ($folder as $one) {
@@ -29,9 +29,7 @@ foreach ($folder as $one) {
     }
 }
 
-//require_once ABSPATH . 'core/globalRewrite.php';
-require_once ABSPATH . 'core/globalRewrite2.php';
-new globalRewrite2();
+new globalRewrite();
 require_once ABSPATH . 'core/ST.php';
 require_once ABSPATH . 'includes/User.php';
 
