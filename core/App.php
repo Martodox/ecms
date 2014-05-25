@@ -22,11 +22,18 @@ class App
      */
     public static $db;
 
+    /**
+     * Log class static access
+     * @var SLog 
+     */
+    public static $log;
+
     public function __construct()
     {
         self::$smarty = new Smarty();
         self::$route = new Route();
         self::$db = classMysql::instance();
+        self::$log = SLog::instance();
     }
 
 }

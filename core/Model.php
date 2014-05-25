@@ -22,6 +22,18 @@ class Model
             $_SESSION['lang'] = defaultLanguage;
         }
 
+        if (secureLogin) {
+            if (User::isLogin()) {
+                if (DB_user::getLastActivity() < time() - loginTimeout * 60) {
+                    SLog::logActivity('TIMEOUT');
+                    User::logOut();
+                    Help::redirect();
+                } else {
+                    DB_user::updateLastActivity();
+                }
+            }
+        }
+
         if (empty($_SESSION['formValidate']['new'])) {
             $_SESSION['formValidate']['new'] = Help::uniqueId();
         }
@@ -54,9 +66,9 @@ class Model
                 assign('extraCSS')->
                 assign('extraJS')->
                 assign('serviceName', serviceName);
-        App::$smarty->caching = 0;
+        App::$smarty->caching = smartyCaching;
         App::$smarty->force_compile = true;
-        App::$smarty->cache_lifetime = 1;
+        App::$smarty->cache_lifetime = 120;
     }
 
     public function addTitle($text)

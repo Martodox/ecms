@@ -12,10 +12,14 @@ define("rootpatch", "/");
 
 define("devmode", true);
 
+//needs database with user table
+define("secureLogin", true);
+//in minutes
+define("loginTimeout", (int) 10);
 define("serviceName", "eCMS");
 
 define("defaultLanguage", "pl");
-
+// 0 - disabled, 1 - enabled
 define("caching", 0);
 date_default_timezone_set('Europe/Warsaw');
 setlocale(LC_ALL, array('pl_PL', 'pl', 'Polish_Poland.28592'));

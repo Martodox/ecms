@@ -18,6 +18,7 @@ class User
         unset($_SESSION['user']);
         $_SESSION['user']['level'] = 0;
         $_SESSION['user']['logged'] = false;
+        session_regenerate_id();
     }
 
     public static function setLevel($level)
@@ -55,6 +56,14 @@ class User
     {
         if (!empty($_SESSION['user'][$name])) {
             return $_SESSION['user'][$name];
+        }
+        return false;
+    }
+
+    public static function isLogin()
+    {
+        if ($_SESSION['user']['logged']) {
+            return true;
         }
         return false;
     }

@@ -3,9 +3,35 @@
 class SLog
 {
 
+    public $printStack;
+
     private function __construct()
     {
-        
+        $this->printStack = array();
+    }
+
+    public static function instance()
+    {
+        return new SLog();
+    }
+
+    public function addLog($info)
+    {
+        array_push($this->printStack, $info);
+    }
+
+    public function printLog()
+    {
+        foreach ($this->printStack as $log) {
+            Help::printer($log);
+        }
+    }
+
+    public function logToFile()
+    {
+        foreach ($this->printStack as $log) {
+            self::toFile($log);
+        }
     }
 
     public static function toFile($info)
@@ -17,10 +43,10 @@ class SLog
 
         $message = date('H:i:s');
         $message.= "\n-------------------------------------\n";
-        if (is_array($info)) {
-            $message.= print_r($info, true);
-        } else {
+        if (is_string($info)) {
             $message.= $info;
+        } else {
+            $message.= print_r($info, true);
         }
 
         $message.= "\n-------------------------------------\n\n\n";

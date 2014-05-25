@@ -15,5 +15,4 @@ class AdminSettingsModel extends Model
         }
     }
 
-
 }

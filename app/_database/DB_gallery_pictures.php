@@ -7,6 +7,6 @@
  * @link http://bartosz.jakubowiak.pl/ Authors home page
  */
 class DB_gallery_pictures extends Database
-{ 
+{
     
 }

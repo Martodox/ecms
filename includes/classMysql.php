@@ -35,6 +35,7 @@ class classMysql implements sqlInterface
      */
     public static function create($query)
     {
+
         $instance = new classMysql();
         $instance->prepare($query);
         return $instance;
@@ -64,17 +65,19 @@ class classMysql implements sqlInterface
      */
     public static function simpleQuery($query = null, $forceReturn = false)
     {
+
         $instance = new classMysql();
         $instance->checkReturn($query);
-        $zapytanie = $instance->connection->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $query = $instance->connection->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+
         try {
-            $zapytanie->execute();
+            $query->execute();
         } catch (Exception $ex) {
             echo "<pre>$ex</pre>";
         }
 
         if ($instance->return || $forceReturn) {
-            return $zapytanie->fetchAll(PDO::FETCH_ASSOC);
+            return $query->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 
@@ -119,6 +122,7 @@ class classMysql implements sqlInterface
     public function execute()
     {
         try {
+
             $this->prepareQuery->execute();
             if ($this->return) {
                 return $this->prepareQuery->fetchAll(PDO::FETCH_ASSOC);

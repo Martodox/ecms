@@ -37,6 +37,7 @@ class AuthHomeController extends Controller
                 User::setUserField('email', $user['email']);
                 SLog::logActivity('LOGIN');
                 DB_user_logs::resetLoginAttempts();
+                DB_user::updateLastActivity();
                 Help::redirect('Admin');
             } else {
                 $loginfail = true;
@@ -56,7 +57,6 @@ class AuthHomeController extends Controller
     {
         SLog::logActivity('LOGOUT');
         User::logOut();
-        session_regenerate_id();
         Help::redirect('Auth');
     }
 

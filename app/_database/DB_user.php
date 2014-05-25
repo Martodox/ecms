@@ -48,4 +48,44 @@ class DB_user extends Database
         return $return[0];
     }
 
+    /**
+     * 
+     * @param int $id valid user ID
+     * @return void
+     */
+    public static function updateLastActivity($id = null)
+    {
+        if ($id == null) {
+            $id = User::getID();
+        }
+
+        App::$db->
+                create('UPDATE `user` SET `lastactivity` = :time WHERE `id` = :id')->
+                bind((int) $id, 'id')->
+                bind(time(), 'time')->
+                execute();
+    }
+
+    /**
+     * 
+     * @param int $id valid user ID
+     * @return unixtimestamp 
+     */
+    public static function getLastActivity($id = null)
+    {
+        if ($id == null) {
+            $id = User::getID();
+        }
+
+        $return = App::$db->
+                create('SELECT `lastactivity` FROM `user`  WHERE `id` = :id LIMIT 1')->
+                bind((int) $id, 'id')->
+                execute();
+
+        if (empty($return)) {
+            return false;
+        }
+        return $return[0]['lastactivity'];
+    }
+
 }
