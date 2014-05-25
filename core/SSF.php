@@ -24,7 +24,7 @@ class SSF
         User::checkFields();
 
         //checks whether access level is sufficient and redirects to login page if not 
-        if ($globalRewrite['access'] > User::getLevel()) {
+        if ($globalRewrite['access'] > User::getLevel() && ST::currentComponent() != 'AuthHome') {
             Help::redirect('Auth', null, null, 'notauthorised');
         }
         $modelName = $globalRewrite['component'] . 'Model';
@@ -53,8 +53,6 @@ class SSF
         } catch (Exception $ex) {
             $this->controller->display('404');
         }
-
-       
     }
 
 }

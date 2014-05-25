@@ -17,24 +17,17 @@ class AuthHomeController extends Controller
             }
             $password = Help::serverVar('post', 'password');
             $email = Help::serverVar('post', 'email');
-            $salt = App::$db->
-                    create('SELECT salt FROM user WHERE email = :email AND `active` = 1')->
-                    bind($email, 'email')->
-                    execute();
+            $salt = DB_user::getSalt($email);
             $loginfail = false;
 
-            if (!empty($salt)) {
-                $password = Help::saltPassword($password, $salt[0]['salt']);
-                $user = App::$db->
-                        create('SELECT * FROM user WHERE password = :password')->
-                        bind($password, 'password')->
-                        execute();
+            if ($salt) {
+                $password = Help::saltPassword($password, $salt);
+                $user = DB_user::authenticateUser($email, $password);
             } else {
                 $loginfail = true;
             }
 
-            if (!empty($user)) {
-                $user = $user[0];
+            if ($user) {
                 session_regenerate_id();
                 User::logIn();
                 User::setLevel($user['level']);
@@ -43,13 +36,14 @@ class AuthHomeController extends Controller
                 User::setUserField('last_name', $user['last_name']);
                 User::setUserField('email', $user['email']);
                 SLog::logActivity('LOGIN');
+                DB_user_logs::resetLoginAttempts();
                 Help::redirect('Admin');
             } else {
                 $loginfail = true;
             }
 
             if ($loginfail) {
-                SLog::logActivity('FAILLOGIN');
+                SLog::logActivity('FAILLOGIN', 'A');
                 $_SESSION['wrongEmail'] = $email;
                 Help::redirect('Auth', null, null, 'error');
             }

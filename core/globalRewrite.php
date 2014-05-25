@@ -101,7 +101,13 @@ class globalRewrite
 
     public function __construct()
     {
-        $this->access = 0;
+        self::$cLang = $_SESSION['lang'];
+        self::$routeActions = App::$route->getRouteActions();
+        self::$routeComponents = App::$route->getRouteComponents();
+        self::$routeDialogs = App::$route->getRouteDialogs();
+        self::$routePacage = App::$route->getRoutePacage();
+
+
         $this->position = 0;
         $this->isPacageSet = false;
         $this->isActionSet = false;
@@ -111,11 +117,8 @@ class globalRewrite
         $this->file = "";
         $this->pacage = "Default";
         $this->vars = array();
-        self::$cLang = $_SESSION['lang'];
-        self::$routeActions = App::$route->getRouteActions();
-        self::$routeComponents = App::$route->getRouteComponents();
-        self::$routeDialogs = App::$route->getRouteDialogs();
-        self::$routePacage = App::$route->getRoutePacage();
+        $defaultaccess = (empty(self::$routePacage[$this->pacage]['access']) ? 0 : self::$routePacage[$this->pacage]['access']);
+        $this->access = $defaultaccess;
 
         self::setLink();
 
@@ -152,15 +155,15 @@ class globalRewrite
         }
 
         $link = explode('/', $_GET['get']);
-
+        if (empty($link)) {
+            $link[0] = 'start';
+        }
         for ($i = 0; $i <= 3; $i++) {
             if (!isset($link[$i])) {
                 $link[$i] = "";
             }
         }
-        if (empty($link)) {
-            $link[0] = 'start';
-        }
+
         self::$link = $link;
     }
 
@@ -278,7 +281,7 @@ class globalRewrite
             }
         }
 
-        
+
         //Determins which part of link are variables.
         if ($this->isActionSet && $this->isComponentSet) {
             $this->vars = explode(',', self::$link[$this->position + 2]);

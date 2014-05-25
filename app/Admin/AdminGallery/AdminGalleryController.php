@@ -29,29 +29,11 @@ class AdminGalleryController extends Controller
     {
         Help::ajaxAuthenticateRequest();
         $id = json_decode(Help::serverVar('post', 'data'));
-        $pos = App::$db->
-                create('SELECT `order` FROM `gallery_category` WHERE `id` = :id')->
-                bind((int) $id, 'id', 'int')->
-                execute();
 
-        $oldPos = $pos[0]['order'];
-        $newPos = ($dir == 'up' ? $pos[0]['order'] - 1 : $pos[0]['order'] + 1);
-
-        $oldID = App::$db->
-                create('SELECT `id` FROM `gallery_category` WHERE `order` = :order')->
-                bind((int) $newPos, 'order', 'int')->
-                execute();
-        $oldID = $oldID[0]['id'];
-
-
-        App::$db->
-                create("UPDATE `gallery_category` SET `order` = :order WHERE `id` = :id")->
-                bind((int) $oldPos, 'order', 'int')->
-                bind((int) $oldID, 'id', 'int')->
-                execute()->
-                bind((int) $newPos, 'order', 'int')->
-                bind((int) $id, 'id', 'int')->
-                execute();
+        $oldPos = DB_gallery_category::categoryPosition($id);
+        $newPos = ($dir == 'up' ? $oldPos - 1 : $oldPos + 1);
+        $oldID = DB_gallery_category::idFromOrder($newPos);
+        DB_gallery_category::swapPositions($oldPos, $oldID, $newPos, $id);
 
         $return['token'] = Model::newToken();
         echo json_encode($return);

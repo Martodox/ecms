@@ -34,17 +34,13 @@ class AuthHomeModel extends Model
             Help::redirect('Admin');
         }
 
-        $loginattempts = App::$db->
-                create('SELECT count(user_id) as attempts FROM user_logs WHERE ip = :ip AND `timestamp` > :timenow AND `action` = :action ')->
-                bind(Help::getIp(), 'ip')->
-                bind(time() - 1200, 'timenow')->
-                bind('FAILLOGIN', 'action')->
-                execute();
-        $this->loginattempts = $loginattempts[0]['attempts'];
-
-
-        $this->blocklogin = ($this->loginattempts >= $this->allowedattemtps ? true : false);
-        App::$smarty->assign('hideloginform', $this->blocklogin);
+        $this->loginattempts = DB_user_logs::ipLoginAttempts();
+        if (!Help::isActionSet('AdminLogOut')) {
+            $this->blocklogin = ($this->loginattempts >= $this->allowedattemtps ? true : false);
+            App::$smarty->assign('hideloginform', $this->blocklogin);
+        } else {
+            $this->blocklogin = false;
+        }
 
 
         if (!empty($_SESSION['wrongEmail'])) {

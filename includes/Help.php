@@ -42,8 +42,10 @@ class Help
         } else {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
-
-        return $ip;
+        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+            return $ip;
+        }
+        return '0.0.0.0';
     }
 
     public static function getRandString($len)

@@ -10,27 +10,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Zrzut struktury tabela ecms.admin_permissions
-CREATE TABLE IF NOT EXISTS `admin_permissions` (
-  `component` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `level` tinyint(4) DEFAULT '10',
-  UNIQUE KEY `component` (`component`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- Zrzucanie danych dla tabeli ecms.admin_permissions: ~0 rows (około)
-DELETE FROM `admin_permissions`;
-/*!40000 ALTER TABLE `admin_permissions` DISABLE KEYS */;
-INSERT INTO `admin_permissions` (`component`, `level`) VALUES
-	('AdminAuth', 10),
-	('AdminPages', 10),
-	('DefaultHome', 10),
-	('AdminSettings', 10),
-	('AdminUser', 10),
-	('AdminGallery', 10),
-	('AdminHome', 10);
-/*!40000 ALTER TABLE `admin_permissions` ENABLE KEYS */;
-
-
 -- Zrzut struktury tabela ecms.gallery_category
 CREATE TABLE IF NOT EXISTS `gallery_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -39,17 +18,17 @@ CREATE TABLE IF NOT EXISTS `gallery_category` (
   `slug` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `active` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Zrzucanie danych dla tabeli ecms.gallery_category: 5 rows
+-- Zrzucanie danych dla tabeli ecms.gallery_category: ~5 rows (około)
 DELETE FROM `gallery_category`;
 /*!40000 ALTER TABLE `gallery_category` DISABLE KEYS */;
 INSERT INTO `gallery_category` (`id`, `order`, `name`, `slug`, `active`) VALUES
-	(12, 2, 'miscellaneous', 'miscellaneous', 1),
-	(9, 3, 'people', 'people', 1),
+	(8, 4, 'portraits', 'portraits', 1),
+	(9, 5, 'people', 'people', 1),
 	(10, 1, 'stories', 'stories', 1),
-	(11, 4, 'shadow/light', 'shadow-light', 1),
-	(8, 5, 'portraits', 'portraits', 1);
+	(11, 3, 'shadow/light', 'shadow-light', 1),
+	(12, 2, 'miscellaneous', 'miscellaneous', 1);
 /*!40000 ALTER TABLE `gallery_category` ENABLE KEYS */;
 
 
@@ -60,9 +39,9 @@ CREATE TABLE IF NOT EXISTS `gallery_pictures` (
   `filename` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `description` text COLLATE utf8_bin,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=210 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Zrzucanie danych dla tabeli ecms.gallery_pictures: 0 rows
+-- Zrzucanie danych dla tabeli ecms.gallery_pictures: ~0 rows (około)
 DELETE FROM `gallery_pictures`;
 /*!40000 ALTER TABLE `gallery_pictures` DISABLE KEYS */;
 /*!40000 ALTER TABLE `gallery_pictures` ENABLE KEYS */;
@@ -79,9 +58,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `salt` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `password` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Zrzucanie danych dla tabeli ecms.user: 2 rows
+-- Zrzucanie danych dla tabeli ecms.user: ~2 rows (około)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `email`, `level`, `active`, `first_name`, `last_name`, `salt`, `password`) VALUES
@@ -94,9 +73,9 @@ INSERT INTO `user` (`id`, `email`, `level`, `active`, `first_name`, `last_name`,
 CREATE TABLE IF NOT EXISTS `user_extra` (
   `id` int(11) DEFAULT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Zrzucanie danych dla tabeli ecms.user_extra: 0 rows
+-- Zrzucanie danych dla tabeli ecms.user_extra: ~0 rows (około)
 DELETE FROM `user_extra`;
 /*!40000 ALTER TABLE `user_extra` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_extra` ENABLE KEYS */;
@@ -109,49 +88,33 @@ CREATE TABLE IF NOT EXISTS `user_logs` (
   `timestamp` varchar(12) COLLATE utf8_bin DEFAULT NULL,
   `action` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `what` varchar(200) COLLATE utf8_bin DEFAULT NULL,
-  `where` varchar(200) COLLATE utf8_bin DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `where` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `ip` varchar(20) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Zrzucanie danych dla tabeli ecms.user_logs: 36 rows
+-- Zrzucanie danych dla tabeli ecms.user_logs: ~3 rows (około)
 DELETE FROM `user_logs`;
 /*!40000 ALTER TABLE `user_logs` DISABLE KEYS */;
-INSERT INTO `user_logs` (`user_id`, `user_level`, `timestamp`, `action`, `what`, `where`) VALUES
-	(0, 0, '1399582158', 'LOGOUT', '', ''),
-	(1, 10, '1399582237', 'LOGIN', '', ''),
-	(1, 10, '1399582307', 'LOGOUT', '', ''),
-	(1, 10, '1399582536', 'LOGIN', '', ''),
-	(1, 10, '1399583150', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583151', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583151', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583152', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583153', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583153', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583154', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583154', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583155', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583156', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583156', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583157', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583157', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583158', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583159', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583159', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583160', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399583182', 'REMOVEPICTURE', 'stories', ''),
-	(1, 10, '1399669322', 'REMOVEPICTURE', 'stories', ''),
-	(1, 10, '1399669504', 'REMOVEPICTURE', 'stories', ''),
-	(1, 10, '1399669539', 'REMOVEPICTURE', 'stories', ''),
-	(1, 10, '1399669614', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399669622', 'REMOVEPICTURE', '', ''),
-	(1, 10, '1399843670', 'LOGIN', '', ''),
-	(1, 10, '1399843680', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399843689', 'REMOVEPICTURE', '', ''),
-	(1, 10, '1399843874', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399843880', 'REMOVEPICTURE', 'stories', ''),
-	(1, 10, '1399930679', 'LOGIN', '', ''),
-	(1, 10, '1399931219', 'ADDPICTURE', 'stories', ''),
-	(1, 10, '1399931226', 'REMOVEPICTURE', 'stories', ''),
-	(1, 10, '1400000945', 'LOGIN', '', '');
+INSERT INTO `user_logs` (`user_id`, `user_level`, `timestamp`, `action`, `what`, `where`, `ip`) VALUES
+	(1, 10, '1401020062', 'LOGOUT', '', '', '127.0.0.1'),
+	(1, 10, '1401020066', 'LOGIN', '', '', '127.0.0.1'),
+	(1, 10, '1401020069', 'LOGOUT', '', '', '127.0.0.1'),
+	(0, 0, '1401020073', 'FAILLOGIN', '', '', '127.0.0.1'),
+	(0, 0, '1401020075', 'FAILLOGIN', '', '', '127.0.0.1'),
+	(0, 0, '1401020077', 'FAILLOGIN', '', '', '127.0.0.1'),
+	(1, 10, '1401020080', 'LOGIN', '', '', '127.0.0.1'),
+	(1, 10, '1401020694', 'LOGOUT', '', '', '127.0.0.1'),
+	(1, 10, '1401020696', 'LOGIN', '', '', '127.0.0.1'),
+	(1, 10, '1401020698', 'LOGOUT', '', '', '127.0.0.1'),
+	(0, 0, '1401020700', 'FAILLOGIN', '', '', '127.0.0.1'),
+	(0, 0, '1401020702', 'FAILLOGIN', '', '', '127.0.0.1'),
+	(1, 10, '1401020703', 'LOGIN', '', '', '127.0.0.1'),
+	(1, 10, '1401020707', 'LOGOUT', '', '', '127.0.0.1'),
+	(1, 10, '1401020758', 'LOGIN', '', '', '127.0.0.1'),
+	(1, 10, '1401021604', 'LOGOUT', '', '', '127.0.0.1'),
+	(0, 0, '1401021773', 'LOGOUT', '', '', '127.0.0.1'),
+	(1, 10, '1401021889', 'LOGIN', '', '', '127.0.0.1'),
+	(1, 10, '1401021892', 'LOGOUT', '', '', '127.0.0.1');
 /*!40000 ALTER TABLE `user_logs` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

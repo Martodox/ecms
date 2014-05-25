@@ -72,6 +72,12 @@ class ST
         return true;
     }
 
+    public static function isVarSet()
+    {
+        $vartmp = App::$route->getGlobalRewrite();
+        return (empty($vartmp['vars']) ? false : true);
+    }
+
     public static function currentVars($id = false)
     {
         $vartmp = App::$route->getGlobalRewrite();
