@@ -36,14 +36,16 @@ class SLog
         $level = User::getField('level');
         $time = time();
         $action = ($action == '' ? 'DEFAULT' : $action);
+        $ip = Help::getIp();
         App::$db->
-                create('INSERT INTO `user_logs` (`user_id`, `user_level`, `timestamp`, `action`, `where`, `what`) VALUES (:id, :level, :timestamp, :action, :where, :what)')->
+                create('INSERT INTO `user_logs` (`user_id`, `user_level`, `timestamp`, `action`, `where`, `what`, `ip`) VALUES (:id, :level, :timestamp, :action, :where, :what, :ip)')->
                 bind($user, 'id')->
                 bind($level, 'level')->
                 bind($time, 'timestamp')->
                 bind($action, 'action')->
                 bind($where, 'where')->
                 bind($what, 'what')->
+                bind($ip, 'ip')->
                 execute();
     }
 

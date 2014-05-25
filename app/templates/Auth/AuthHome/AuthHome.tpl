@@ -20,28 +20,38 @@
     <body class="bg-black">
         <div class="form-box" id="login-box">
             <div class="header">{$l_loginText}</div>
-            <form action="{$rootpatch}{$p_Auth}/{$a_AdminLoginAuthorize}" method="post">
+            {if $hideloginform}
                 <div class="body bg-gray">
-                    {if $showloginerror}
-                        <div class="alert alert-danger no-margin alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            {$l_loginerrorinfo}
-                        </div>
-                    {/if}
-                    <div class="form-group">
-                        <input type="text" name="email" class="form-control" placeholder="{$l_emailplaceholder}" value="{if isset($wrongemail)}{$wrongemail}{/if}"/>
+                    <div class="alert alert-danger no-margin">
+                       {$l_toomanybadlogins}
                     </div>
-                    <div class="form-group">
-                        <input type="password" name="password" class="form-control" placeholder="{$l_password}"/>
-                    </div>          
+
                 </div>
-                <div class="footer">                                                               
-                    <button type="submit" class="btn bg-olive btn-block">{$l_loginaction}</button>
-                    <p><a href="{$rootpatch}{$p_Auth}/{$a_forgotPassword}">{$l_userforgotpassword}</a></p>
-                    <a href="{$rootpatch}" class="text-center">{$l_backtomainpage}</a>
-                </div>
-                <input type="hidden" name="csrftoken" value="{$formValidateToken}">
-            </form>
+                <div class="footer"></div>
+            {else}
+                <form action="{$rootpatch}{$p_Auth}/{$a_AdminLoginAuthorize}" method="post">
+                    <div class="body bg-gray">
+                        {if $showloginerror}
+                            <div class="alert alert-danger no-margin alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                {$l_loginerrorinfo}
+                            </div>
+                        {/if}
+                        <div class="form-group">
+                            <input type="text" name="email" class="form-control" placeholder="{$l_emailplaceholder}" value="{if isset($wrongemail)}{$wrongemail}{/if}" required="">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" class="form-control" placeholder="{$l_password}" required="">
+                        </div>          
+                    </div>
+                    <div class="footer">                                                               
+                        <button type="submit" class="btn bg-olive btn-block">{$l_loginaction}</button>
+                        <p><a href="{$rootpatch}{$p_Auth}/{$a_forgotPassword}">{$l_userforgotpassword}</a></p>
+                        <a href="{$rootpatch}" class="text-center">{$l_backtomainpage}</a>
+                    </div>
+                    <input type="hidden" name="csrftoken" value="{$formValidateToken}">
+                </form>
+            {/if}
         </div>
         <!-- jQuery 2.0.2 -->
         <script src="{$temproot}js/jquery.min.js"></script>

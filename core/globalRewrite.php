@@ -278,6 +278,8 @@ class globalRewrite
             }
         }
 
+        
+        //Determins which part of link are variables.
         if ($this->isActionSet && $this->isComponentSet) {
             $this->vars = explode(',', self::$link[$this->position + 2]);
         } else if (($this->isActionSet && !$this->isComponentSet) || (!$this->isActionSet && $this->isComponentSet)) {

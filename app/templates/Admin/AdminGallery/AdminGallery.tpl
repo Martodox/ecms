@@ -48,6 +48,7 @@
                                             {else}
                                             <span data-toggle="tooltip" data-placement="right" title="{$l_clicltomakeublic}" class="label label-danger"><a class="text-white changeVisibility" href="{$rootpatch}{$p_Admin}/{$c_AdminGallery}/{$a_AdminGalleryChangeStatus}/{$category.id}">{$l_no}</a></span>
                                             {/if}
+                                        
                                     </td>
                                     <td data-id="{$category.id}" class="order-change">
                                         {if not $smarty.foreach.catname.last}

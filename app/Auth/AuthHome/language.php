@@ -9,4 +9,5 @@ App::$route->
         addDialog('loginaction', 'pl', 'Zaloguj się!', 'en', 'Sign me in!')->
         addDialog('emailplaceholder', 'pl', 'adres@email.pl')->
         addDialog('userforgotpassword', 'pl', 'Przypomnij hasło', 'en', 'I forgot my password')->
-        addDialog('loginerrorinfo', 'pl', 'Błędny login i/lub hasło. Spróbuj ponownie.');
+        addDialog('loginerrorinfo', 'pl', 'Błędny login i/lub hasło. Spróbuj ponownie.')->
+        addDialog('toomanybadlogins', 'pl', 'Za dużo błędnych logowań.<br/> Spróbuj ponownie za <b>15 minut.</b>');

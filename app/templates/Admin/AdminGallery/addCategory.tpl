@@ -13,7 +13,7 @@
 
                     <div class="form-group col col-lg-12">
                         <label for="categoryname">{$l_categoryname}</label>
-                        <input data-validate="false" autocomplete="false" type="text" name="name" class="form-control" id="categoryname" placeholder="{$l_categoryname}">
+                        <input autocomplete="false" type="text" name="name" class="form-control" id="categoryname" placeholder="{$l_categoryname}">
                     </div>
                 </div>
             </div>

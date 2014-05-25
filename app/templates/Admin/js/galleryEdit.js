@@ -46,7 +46,7 @@ $(document).ready(function() {
         var btn = $(this);
         var link = btn.attr('href');
 
-
+        btn.html('<i class="fa fa-spinner fa-spin"></i>');
 
         $.ajax({
             type: "POST",
