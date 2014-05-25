@@ -18,6 +18,9 @@ class Model
         $this->displayTemplate = true;
         $this->template = substr(get_class($this), 0, -5);
 
+        if (empty($_SESSION['lang'])) {
+            $_SESSION['lang'] = defaultLanguage;
+        }
 
         if (empty($_SESSION['formValidate']['new'])) {
             $_SESSION['formValidate']['new'] = Help::uniqueId();
