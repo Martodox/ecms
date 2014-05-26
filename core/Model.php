@@ -18,9 +18,7 @@ class Model
         $this->displayTemplate = true;
         $this->template = substr(get_class($this), 0, -5);
 
-        if (empty($_SESSION['lang'])) {
-            $_SESSION['lang'] = defaultLanguage;
-        }
+
 
         if (secureLogin) {
             if (User::isLogin()) {

@@ -14,6 +14,9 @@ require_once ABSPATH . 'includes/classMysql.php';
 require_once ABSPATH . 'includes/Upload.php';
 require_once ABSPATH . 'core/Route.php';
 
+if (empty($_SESSION['lang'])) {
+    $_SESSION['lang'] = defaultLanguage;
+}
 
 $fileIgnore = array('Route.php', 'classIncluder.php', 'SSF.php', 'App.php', 'ST.php', 'sqlInterface.php');
 require_once ABSPATH . 'core/App.php';
